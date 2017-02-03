@@ -1,0 +1,26 @@
+header{
+}
+
+.navbar {
+   background-color: transparent;
+   background: transparent;
+   border-color: transparent;
+}
+
+.navbar-nav li a,
+.navbar-brand{  
+	color: #fff !important; 
+}
+
+.navbar-toggle{
+	border: none;
+}
+
+.navbar-default .navbar-toggle:focus, 
+.navbar-default .navbar-toggle:hover{
+	background-color: transparent !important;
+}
+
+.icon-bar{
+ 	background-color: #fff !important;
+}
