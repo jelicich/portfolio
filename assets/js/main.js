@@ -5,6 +5,8 @@ var common = {
     init : function() 
     {	
         common.scrollTo();
+        common.showcase();
+
     },
 
     scrollTo: function(){
@@ -17,6 +19,12 @@ var common = {
 		        }, 1000);
 		    }
 		});
+    },
+    showcase: function(){
+        $("#showcase").flickity({
+            wrapAround: true,
+            pageDots: false
+        });
     }
 }
 {

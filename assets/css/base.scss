@@ -1,3 +1,24 @@
 body{
-	color: #fff;	
+	color: #fff;
+	font-family: 'Roboto', Arial, sans-serif;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: 0;
+  padding: 10px;
+}
+figure a {
+  display: block;
+}
+// mark {
+//   padding: 0 5px;
+//   background-color: #dddddd;
+// }
+// ::backdrop {
+//   background-color: rgba(0, 0, 0, 0.5);
+// }
