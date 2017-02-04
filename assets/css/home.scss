@@ -1,5 +1,61 @@
 #home{
-	height: 100vh;
 	background: #009688;
-	padding-top: 50px;
+	color: #292929;
+
+	.section-inner{
+		background-position: center center;
+	    background-repeat: repeat;
+	    background-attachment: fixed;
+	    //background-size: cover;
+		background-image:url('../img/greyzz.png');
+		display: flex;
+
+		.container{
+			margin: auto;
+		}
+
+		h1{
+			text-align: center;
+			font-size: 70px;
+			margin-top: 0;
+			opacity: 0;
+			// transform: translate(0, -100%);
+			// transition: opacity 1s ease-in, transform 1s ease-in;
+			transition: opacity 1s ease-in;
+			//animation: bounce-from-top 1s ease-out;
+		}
+
+		p{
+			text-align: center;
+			font-size: 50px;
+			opacity: 0;
+			// transform: translate(0, 100%);
+			// transition: opacity 1s ease-in, transform 1s ease-in;
+			transition: opacity 1s ease-in;
+			//animation: bounce-from-bottom 1s ease-out;
+		}
+	}
+}
+
+@keyframes bounce-from-top{
+	0%{
+		transform: translate(0, -100%);
+	}
+	80%{
+		transform: translate(0, 10%);
+	}
+	100%{
+		transform: translate(0, 0);
+	}
+}
+@keyframes bounce-from-bottom{
+	0%{
+		transform: translate(0, 100%);
+	}
+	80%{
+		transform: translate(0, -10%);
+	}
+	100%{
+		transform: translate(0, 0);
+	}
 }

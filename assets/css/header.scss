@@ -2,14 +2,14 @@ header{
 }
 
 .navbar {
-   background-color: transparent;
-   background: transparent;
-   border-color: transparent;
+	background: transparent;
+	background-color: transparent;
+	border-color: transparent;
 }
 
 .navbar-nav li a,
 .navbar-brand{  
-	color: #fff !important; 
+	color: inherit !important;
 }
 
 .navbar-toggle{

@@ -16,7 +16,9 @@ portfolio.Section = {
 
 portfolio.About = $.extend(true, {}, portfolio.Section, {
     init: function() {
-        //do things for section 
+        //do things for section
+        $('#home h1').css({opacity: '1', animation: 'bounce-from-top 1s ease-out'});
+        $('#home p').css({opacity: '1', animation: 'bounce-from-bottom 1s ease-out'});
     }
 });
 
@@ -83,6 +85,17 @@ portfolio.EventHandler = {
 {
     $(window).on('load',function() {
         portfolio.Common.init();
+        portfolio.About.init();
+
+        ( function( $ ) {
+            // Init Skrollr
+            var s = skrollr.init({
+                render: function(data) {
+                    //Debugging - Log the current scroll position.
+                    //console.log(data.curTop);
+                }
+            });
+        } )( jQuery );
     });
 }
 
