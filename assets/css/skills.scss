@@ -1,3 +1,18 @@
 #skills{
 	background: #FF5252;
+
+	.chart-container{
+		width: 100%;
+		height: calc(100vh*0.7);
+
+		.click-circle,
+		.skills-button-text{
+			cursor: pointer;
+			text-transform: uppercase
+		}
+		.click-circle.highlighted {
+			fill: rgba(201,201,201, 0.80);
+		}
+	}
+
 }
