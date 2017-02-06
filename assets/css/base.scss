@@ -1,6 +1,7 @@
 body{
 	color: #fff;
 	font-family: 'Roboto', Arial, sans-serif;
+	//overflow: hidden; 
 }
 
 img {
@@ -23,6 +24,20 @@ section.portfolio-section{
 		padding-top: 50px;
 		height: 100%;
 		width: 100%;
+	}
+}
+
+.divider{
+	height: 75vh;
+	.divider-inner{
+
+		background-position: center center;
+	    background-repeat: repeat;
+	    background-attachment: fixed;
+	    //background-size: cover;
+		background-image:url('../img/bg1.png');
+
+		height: 100%;
 	}
 }
 // mark {
