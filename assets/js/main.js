@@ -115,36 +115,6 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
             
             // bind the data
             var skillArcs = svg.selectAll('path.skill-arc').data(dataset);
-
-
-
-            // custom tween function used by the attrTween method to draw the intermediary steps.
-            // attrTween will actually pass the data, index, and attribute value of the current
-            // DOM object to this function, but for our purposes, we can omit the attribute value
-            function arc2Tween(d, indx) {
-                // this will return an interpolater function that returns values between 
-                //'this._current' and 'd' given an input between 0 and 1
-                var interp = d3.interpolate(this._current, d.value);    
-
-                // update this._current to match the new value
-                this._current = d.value;  
-
-                // returns a function that attrTween calls with a time input between 0-1; 0 as the
-                // start time, and 1 being the end of the animation              
-                return function(t) {
-                    // use the time to get an interpolated value`(between this._current and d)                  
-                    d.value = interp(t)                 
-
-                    // pass this new information to the accessor
-                    // function to calculate the path points.
-
-                    // n.b. we need to manually pass along the
-                    //  index to drawArc so since the calculation of
-                    //  the radii depend on knowing the index.
-                    return drawArc(d, indx);
-                }
-            };
-
           
 
             // update arcs using attrTween and a custom tween function arc2Tween
@@ -174,13 +144,40 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                     this._current = d.value;
                 });
 
-          // add the labels to each arc or update the text
+            // add the labels to each arc or update the text
             var labels = svg.selectAll('.skill-label');
             if(labels[0].length == 0){
                 renderText();
             }else{
                updateText();
              };
+
+            // custom tween function used by the attrTween method to draw the intermediary steps.
+            // attrTween will actually pass the data, index, and attribute value of the current
+            // DOM object to this function, but for our purposes, we can omit the attribute value
+            function arc2Tween(d, indx) {
+                // this will return an interpolater function that returns values between 
+                //'this._current' and 'd' given an input between 0 and 1
+                var interp = d3.interpolate(this._current, d.value);    
+
+                // update this._current to match the new value
+                this._current = d.value;  
+
+                // returns a function that attrTween calls with a time input between 0-1; 0 as the
+                // start time, and 1 being the end of the animation              
+                return function(t) {
+                    // use the time to get an interpolated value`(between this._current and d)                  
+                    d.value = interp(t)                 
+
+                    // pass this new information to the accessor
+                    // function to calculate the path points.
+
+                    // n.b. we need to manually pass along the
+                    //  index to drawArc so since the calculation of
+                    //  the radii depend on knowing the index.
+                    return drawArc(d, indx);
+                }
+            };
 
             function renderText() {
                 labels.data(dataset)
