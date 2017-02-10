@@ -32,45 +32,67 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         //Data to be displayed. Edit as desired
         //Note: this code will expect the same length on both datasets.
-        var dataFront = [{
-            skill: 'CSS',
-            value: 10
-        },{
-            skill: 'HTML',
-            value: 90
-        },{
-            skill: 'Javascript',
-            value: 75
-        },{
-            skill: 'Angular',
-            value: 20
-        },{
-            skill: 'Sass/Less',
-            value: 75
+        var data = [{
+            set: 'Front-end',
+            data: [{
+                skill: 'CSS',
+                value: 10
+            },{
+                skill: 'HTML',
+                value: 90
+            },{
+                skill: 'Javascript',
+                value: 75
+            },{
+                skill: 'Angular',
+                value: 20
+            },{
+                skill: 'Sass/Less',
+                value: 75
+            }]
+        },
+        {
+            set: 'Back-end',
+                data: [{
+                skill: 'PHP',
+                value: 10
+            },{
+                skill: 'MySQL',
+                value: 40
+            },{
+                skill: 'LAMP',
+                value: 35
+            },{
+                skill: 'Kohana',
+                value: 50
+            },{
+                skill: 'Sarasa',
+                value: 25
+            }]
+        },
+        {
+            set: 'Others',
+                data: [{
+                skill: 'Coffee',
+                value: 90
+            },{
+                skill: 'Mate',
+                value: 10
+            },{
+                skill: 'Small talk',
+                value: 50
+            },{
+                skill: 'Ping Pong',
+                value: 70
+            },{
+                skill: 'Foosball',
+                value: 20
+            }]
         }];
-
-        var dataBack = [{
-            skill: 'PHP',
-            value: 10
-        },{
-            skill: 'MySQL',
-            value: 40
-        },{
-            skill: 'LAMP',
-            value: 35
-        },{
-            skill: 'Kohana',
-            value: 50
-        },{
-            skill: 'Sarasa',
-            value: 25
-        }]; 
+        
+        var currentData = 0; //counter. show first set of data by default
 
         //Define constants
-        var FRONT = 'Front-end'; // text to be displayed on the button
-        var BACK = 'Back-end';
-        var currentRender = FRONT;
-
         var width = $('.chart-container').width(); //960
         var height = $('.chart-container').height(); //500;
 
@@ -204,7 +226,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         var initialize = function() {
             //render the chart
-            render(dataFront);
+            render(data[currentData].data);
 
             // making the click circle if not exists
             if(!d3.selectAll("circle.click-circle")[0].length) {
@@ -216,9 +238,9 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                     .attr('r', arcMin*0.85)
                     .attr('fill', buttonColor)
                     .on('click', function() {
-                        var data = toggleData();
+                        toggleData();
                         toggleButton();
-                        render(data);
+                        render(data[currentData].data);
                     })
                     .on('mouseover', function() {
                         d3.select(this).classed('highlighted', true);
@@ -229,14 +251,14 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
                 // add the label to the button
                 d3.select('svg').append('text')
-                    .text(currentRender)
+                    .text(data[currentData].set)
                     .attr('class', 'skills-button-text')
                     .attr('x', getButtonTextPosition)
                     .attr('y', height/2 + 5)
                     .on("click", function() {
-                      var data = toggleData();
-                      toggleButton();
-                      render(data);
+                        toggleData();
+                        toggleButton();
+                        render(data[currentData].data);
                     }).on('mouseover', function() {
                         d3.select('circle.click-circle').classed('highlighted', true);
                     })
@@ -248,15 +270,11 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         // toggle dataset 
         var toggleData = function(){
-            var data;
-            if(currentRender == FRONT){
-                data = dataBack; 
-                currentRender = BACK; 
+            if(currentData == data.length-1) {
+                currentData = 0;
             } else {
-                data = dataFront;
-                currentRender = FRONT;
+                currentData++;
             }
-            return data;
         }
 
         // toggle button text 
@@ -270,7 +288,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
             function changeText(){
                 d3.select('svg').select('text.skills-button-text')
-                  .text(currentRender)    
+                  .text(data[currentData].set)    
                   .attr('x', getButtonTextPosition);
             }        
         }
