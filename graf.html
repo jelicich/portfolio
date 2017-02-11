@@ -2,14 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700" rel="stylesheet">
+
     <style>
-      
+      body{
+        font-family: 'Quicksand', sans-serif;
+
+
+      }
       .click-rect{
-        border-radius: 5px;
+        fill: #4acce2;
+      }
+      .click-rect,
+      .skills-button-text{
         cursor: pointer;
       }
-      .highlighted{
-        fill: #ff00ff;
+      .highlighted {
+        fill: #43def9;
+      }
+      .skill-percent{
+        font-size: 32px;
+        font-weight: lighter;
+        fill: #dddddd;
       }
 
     </style>
@@ -17,76 +31,64 @@
   <body>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script>
-    /*
-    var data = [10,30,80];
-
-    var canvas = d3.select('body').append('svg')
-      .attr('width',500)
-      .attr('height', 500);
-
-    var group = canvas.append('g')
-      .attr('transform', 'translate(100,100)');
-
-    var radius = 100;
-
-    //angles in d3 are measured using radians not degrees 
-    var perimeter = Math.PI * 2; // radians
-
-    var arc = d3.svg.arc()
-      .innerRadius(radius - 20)
-      .outerRadius(radius)
-      //.startAngle(0)
-
-    var pie = d3.layout.pie()
-      .value(function(d){
-        return d;
-      })
-
-    var arcs = group.selectAll('.arc')
-      .data(pie(data))
-      .enter()
-      .append('g')
-      .attr('class','arg')
-    
-
-    arcs.append('path')
-      .attr('d', arc)
-      */
-
-    // var perimeter = Math.PI * 2;
-
-    // var scaleTo100 = d3.scale.linear().domain([0, 100]).range([0, 2 * Math.PI]);
-    // var data = [{value: 50, label:"css"}, {value: 80, label:"html"}, {value: 10, label: "js"}];
-
-    // var canvas = d3.select('body').append('svg')
-    //   .attr('width',900)
-    //   .attr('height', 900);
-
-    // var arc = d3.svg.arc()
-    //   .innerRadius(30)
-    //   .outerRadius(50)
-    //   .startAngle(0)
-    //   .endAngle(scaleTo100(90));
-
-    // canvas.append("path")
-    // .attr("d", arc)
-    // .attr("transform", "translate(200,200)")
-    // .attr("fill","#999999");
   
-    var dataFront = [{value: 65, label:"tag"}, {value: 90, label:"sarasa"}, {value: 20, label: "caw"}, {value: 100, label: "wdd"}];
-    var dataBack = [{value: 35, label:"asddg"}, {value: 93, label:"sddw"}, {value: 80, label: "dassw"}, {value: 10, label: "sddd"}];
-    //var data = [{value: 50, label:"css"}, {value: 80, label:"html"}];
+    var data = [{
+            set: 'Front-end',
+            data: [{
+                skill: 'CSS',
+                value: 10
+            },{
+                skill: 'HTML',
+                value: 90
+            },{
+                skill: 'Javascript',
+                value: 75
+            },{
+                skill: 'Angular',
+                value: 20
+            }]
+        },
+        {
+            set: 'Back-end',
+                data: [{
+                skill: 'PHP',
+                value: 10
+            },{
+                skill: 'MySQL',
+                value: 40
+            },{
+                skill: 'LAMP',
+                value: 5
+            },{
+                skill: 'Kohana',
+                value: 50
+            }]
+        },
+        {
+            set: 'Others',
+                data: [{
+                skill: 'Coffee',
+                value: 90
+            },{
+                skill: 'Mate',
+                value: 10
+            },{
+                skill: 'Small talk',
+                value: 50
+            },{
+                skill: 'Ping Pong',
+                value: 70
+            }]
+        }];
 
-    var FRONT = 'sarasa'; // text to be displayed on the button
-    var BACK = 'qerer';
-    var currentRender = FRONT;
+    var currentData = 0;
   
     var perimeter = Math.PI * 2;
     var width = 960;
     var height = 500;
     var spacing = 20;
     var thickness = 20;
-    var outerRadius = (width / dataFront.length / 2) - spacing;
+    var outerRadius = (width / data[currentData].data.length / 2) - spacing;
     var innerRadius = outerRadius - thickness;
     var colorFrom = "#dadada";
     var colorTo = "#3e3e3e";
@@ -153,6 +155,15 @@
           this._current = d.value;
         });
 
+      // add the labels to each arc or update the text
+      var labels = canvas.selectAll('.skill-label');
+      var percent = canvas.selectAll('.skill-percent');
+      if(labels[0].length == 0){
+          renderText();
+      }else{
+         updateText();
+       };
+
       function arc2Tween(d, indx) {
       
         var interp = d3.interpolate(this._current, d.value);    // this will return an interpolater
@@ -165,17 +176,15 @@
         return function(t) {                  // returns a function that attrTween calls with
                                               //  a time input between 0-1; 0 as the start time,
                                               //  and 1 being the end of the animation
-          //rebuild obj  
-                                          
-          // var tmp = {
-          //   skill: d.skill,
-          //   value: interp(t)
-          // };   
-          d.value = interp(t)          
+          var obj = {
+            skill: d.skill,
+            value : interp(t)
+          }
+          //d.value = interp(t)          
                                               // use the time to get an interpolated value
                                               //  (between this._current and d)
 
-          return drawSkillArc(d, indx);          // pass this new information to the accessor
+          return drawSkillArc(obj, indx);          // pass this new information to the accessor
                                               //  function to calculate the path points.
                                               //  make sure sure you return this.
 
@@ -186,11 +195,79 @@
                                               //  index, you can omit this argument
         }
       };
+
+      function renderText() {
+          labels.data(data)
+              .enter().append('text')
+              .text(function(d){ return d.skill; })
+              .attr('class', 'skill-label')
+              .attr('x', function(d,i) {
+                var bbox = this.getBBox();
+                var textwidth = bbox.width;
+                return i * (width / data.length) + outerRadius + spacing - textwidth/2;
+              }) //Move the text from the start angle of the arc
+              .attr('y', height/2 + outerRadius + spacing)
+              .attr('dy', 18); //Move the text down
+
+          percent.data(data)
+              .enter().append('text')
+              .text(function(d){ return d.value + '%'; })
+              .attr('class', 'skill-percent')
+              .attr('x', function(d,i) {
+                var bbox = this.getBBox();
+                var textwidth = bbox.width;
+                return i * (width / data.length) + outerRadius + spacing - textwidth/2;
+              }) //Move the text from the start angle of the arc
+              .attr('y', function(d,i){
+                var bbox = this.getBBox();
+                var textHeight = bbox.height;
+                return height / 2 + textHeight/4;
+              });
+              
+      };
+
+      function updateText() {
+          labels.data(data)
+              .transition().duration(transitionDuration/2)
+              .style('opacity', 0)
+              .each('end',changeLabel)
+              .transition().duration(transitionDuration/2)
+              .style('opacity', 1)
+              //.text(function(d) { return d.skill; })
+
+          percent.data(data)
+              .transition().duration(transitionDuration/2)
+              .style('opacity', 0)
+              .each('end',changePercent)
+              .transition().duration(transitionDuration/2)
+              .style('opacity', 1)
+              //.text(function(d) { return d.value + '%'; })
+      }
+
+        function changeLabel(d,i){
+            d3.select(this)
+              .text(d.skill)    
+              .attr('x', function(d){
+                var bbox = this.getBBox();
+                var textwidth = bbox.width;
+                return i * (width / data.length) + outerRadius + spacing - textwidth/2;
+              });
+        }
+
+        function changePercent(d,i){
+            d3.select(this)
+              .text(d.value + '%')
+              .attr('x', function(d){
+                var bbox = this.getBBox();
+                var textwidth = bbox.width;
+                return i * (width / data.length) + outerRadius + spacing - textwidth/2;
+              });
+        }   
     }
 
     function initialize(){
       //render the chart
-      render(dataFront);
+      render(data[currentData].data);
 
       // making the click circle if not exists
       if(!d3.selectAll("circle.click-circle")[0].length) {
@@ -200,15 +277,15 @@
               .attr('class', 'click-rect')
               .attr('x', width/2 - 50)
               .attr('y', 50)
-              .attr('rx', 5)
-              .attr('ry', 5)
+              //.attr('rx', 5)//border radius
+              //.attr('ry', 5)//border radius
               .attr('width', 100)
               .attr('height', 50)
               .attr('fill', buttonColor)
               .on('click', function() {
-                  var data = toggleData();
-                  //toggleButton();
-                  render(data);
+                  toggleData();
+                  toggleButton();
+                  render(data[currentData].data);
               })
               .on('mouseover', function() {
                   d3.select(this).classed('highlighted', true);
@@ -217,53 +294,60 @@
                   d3.select(this).classed('highlighted', false);
               });
 
-          // add the label to the button
-          // d3.select('svg').append('text')
-          //     .text(currentRender)
-          //     .attr('class', 'skills-button-text')
-          //     .attr('x', getButtonTextPosition)
-          //     .attr('y', height/2 + 5)
-          //     .on("click", function() {
-          //       var data = toggleData();
-          //       toggleButton();
-          //       render(data);
-          //     }).on('mouseover', function() {
-          //         d3.select('circle.click-circle').classed('highlighted', true);
-          //     })
-          //     .on('mouseout', function() {
-          //         d3.select('circle.click-circle').classed('highlighted', false);
-          //     });
+          //add the label to the button
+          d3.select('svg').append('text')
+              .text(data[currentData].set)
+              .attr('class', 'skills-button-text')
+              .attr('x', getButtonTextPosition)
+              .attr('y', 50 + 30)
+              .on("click", function() {
+                toggleData();
+                toggleButton();
+                render(data[currentData].data);
+              }).on('mouseover', function() {
+                  d3.select('rect.click-rect').classed('highlighted', true);
+              })
+              .on('mouseout', function() {
+                  d3.select('rect.click-rect').classed('highlighted', false);
+              });
       }  
     }
     
     // toggle dataset 
-    function toggleData(){
-      var data;
-      if(currentRender == FRONT){
-        data = dataBack; 
-        currentRender = BACK; 
-      } else {
-        data = dataFront;
-        currentRender = FRONT;
-      }
-      return data;
+    var toggleData = function(){
+        if(currentData == data.length-1) {
+            currentData = 0;
+        } else {
+            currentData++;
+        }
     }
 
     // toggle button text 
-    // var toggleButton = function(){
-    //     d3.select('svg').select('text.skills-button-text')
-    //         .transition().duration(transitionDuration/2)
-    //         .style('opacity', 0)
-    //         .each('end', changeText) // changes the text when the opacity is 0 
-    //         .transition().duration(transitionDuration/2)
-    //         .style('opacity', 1);
+    var toggleButton = function(){
+        d3.select('svg').select('text.skills-button-text')
+            .transition().duration(transitionDuration/2)
+            .style('opacity', 0)
+            .each('end', changeText) // changes the text when the opacity is 0 
+            .transition().duration(transitionDuration/2)
+            .style('opacity', 1);
 
-    //     function changeText(){
-    //         d3.select('svg').select('text.skills-button-text')
-    //           .text(currentRender)    
-    //           .attr('x', getButtonTextPosition);
-    //     }        
-    // }
+        function changeText(){
+            d3.select('svg').select('text.skills-button-text')
+              .text(data[currentData].set)    
+              .attr('x', getButtonTextPosition);
+        }        
+    }
+
+    // calculates and returns the button's label position to be centered
+    var getButtonTextPosition = function(){
+        var btnWidth = 100;
+        var bbox = this.getBBox();
+        var textwidth = bbox.width;
+        var dif = btnWidth - textwidth;
+        var offset = dif/2;
+        var position = (width/2 - btnWidth/2) + offset;
+        return position;
+    }
 
     initialize();
 

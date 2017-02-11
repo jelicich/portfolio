@@ -31,7 +31,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         //This function was based on http://bl.ocks.org/cmdoptesc/6228457
 
         //Data to be displayed. Edit as desired
-        //Note: this code will expect the same length on both datasets.
+        //Note: this code will expect the same length on every dataset.
         var data = [{
             set: 'Front-end',
             data: [{
@@ -189,7 +189,13 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                 // start time, and 1 being the end of the animation              
                 return function(t) {
                     // use the time to get an interpolated value`(between this._current and d)                  
-                    d.value = interp(t)                 
+                    
+                    //d.value = interp(t) // this will overwrite the original object
+                    //TODO merge value with original object into a new one insted of the following
+                    var obj = {
+                        skill: d.skill,
+                        value : interp(t)
+                    }
 
                     // pass this new information to the accessor
                     // function to calculate the path points.
@@ -197,7 +203,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                     // n.b. we need to manually pass along the
                     //  index to drawArc so since the calculation of
                     //  the radii depend on knowing the index.
-                    return drawArc(d, indx);
+                    return drawArc(obj, indx);
                 }
             };
 
