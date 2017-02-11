@@ -1,3 +1,31 @@
 #about{
 	background: #00BCD4;
+
+	.section-inner{
+		display: flex;
+
+		.container{
+			margin: auto;
+
+			p{
+				font-size: 22px;
+			}
+
+			.img-container{
+				
+			}
+
+			p.secondary-text{
+				font-size: 16px;
+				border-top: 1px solid #fff;
+				padding-top: 15px;	
+				margin-bottom: 15px;
+			}
+
+			img{
+				border-radius: 50%;
+			}
+
+		}
+	}
 }

@@ -31,46 +31,68 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         //This function was based on http://bl.ocks.org/cmdoptesc/6228457
 
         //Data to be displayed. Edit as desired
-        //Note: this code will expect the same length on both datasets.
-        var dataFront = [{
-            skill: 'CSS',
-            value: 10
-        },{
-            skill: 'HTML',
-            value: 90
-        },{
-            skill: 'Javascript',
-            value: 75
-        },{
-            skill: 'Angular',
-            value: 20
-        },{
-            skill: 'Sass/Less',
-            value: 75
+        //Note: this code will expect the same length on every dataset.
+        var data = [{
+            set: 'Front-end',
+            data: [{
+                skill: 'CSS',
+                value: 10
+            },{
+                skill: 'HTML',
+                value: 90
+            },{
+                skill: 'Javascript',
+                value: 75
+            },{
+                skill: 'Angular',
+                value: 20
+            },{
+                skill: 'Sass/Less',
+                value: 75
+            }]
+        },
+        {
+            set: 'Back-end',
+                data: [{
+                skill: 'PHP',
+                value: 10
+            },{
+                skill: 'MySQL',
+                value: 40
+            },{
+                skill: 'LAMP',
+                value: 35
+            },{
+                skill: 'Kohana',
+                value: 50
+            },{
+                skill: 'Sarasa',
+                value: 25
+            }]
+        },
+        {
+            set: 'Others',
+                data: [{
+                skill: 'Coffee',
+                value: 90
+            },{
+                skill: 'Mate',
+                value: 10
+            },{
+                skill: 'Small talk',
+                value: 50
+            },{
+                skill: 'Ping Pong',
+                value: 70
+            },{
+                skill: 'Foosball',
+                value: 20
+            }]
         }];
-
-        var dataBack = [{
-            skill: 'PHP',
-            value: 10
-        },{
-            skill: 'MySQL',
-            value: 40
-        },{
-            skill: 'LAMP',
-            value: 35
-        },{
-            skill: 'Kohana',
-            value: 50
-        },{
-            skill: 'Sarasa',
-            value: 25
-        }]; 
+        
+        var currentData = 0; //counter. show first set of data by default
 
         //Define constants
-        var FRONT = 'Front-end'; // text to be displayed on the button
-        var BACK = 'Back-end';
-        var currentRender = FRONT;
-
         var width = $('.chart-container').width(); //960
         var height = $('.chart-container').height(); //500;
 
@@ -115,36 +137,6 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
             
             // bind the data
             var skillArcs = svg.selectAll('path.skill-arc').data(dataset);
-
-
-
-            // custom tween function used by the attrTween method to draw the intermediary steps.
-            // attrTween will actually pass the data, index, and attribute value of the current
-            // DOM object to this function, but for our purposes, we can omit the attribute value
-            function arc2Tween(d, indx) {
-                // this will return an interpolater function that returns values between 
-                //'this._current' and 'd' given an input between 0 and 1
-                var interp = d3.interpolate(this._current, d.value);    
-
-                // update this._current to match the new value
-                this._current = d.value;  
-
-                // returns a function that attrTween calls with a time input between 0-1; 0 as the
-                // start time, and 1 being the end of the animation              
-                return function(t) {
-                    // use the time to get an interpolated value`(between this._current and d)                  
-                    d.value = interp(t)                 
-
-                    // pass this new information to the accessor
-                    // function to calculate the path points.
-
-                    // n.b. we need to manually pass along the
-                    //  index to drawArc so since the calculation of
-                    //  the radii depend on knowing the index.
-                    return drawArc(d, indx);
-                }
-            };
-
           
 
             // update arcs using attrTween and a custom tween function arc2Tween
@@ -174,13 +166,46 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                     this._current = d.value;
                 });
 
-          // add the labels to each arc or update the text
+            // add the labels to each arc or update the text
             var labels = svg.selectAll('.skill-label');
             if(labels[0].length == 0){
                 renderText();
             }else{
                updateText();
              };
+
+            // custom tween function used by the attrTween method to draw the intermediary steps.
+            // attrTween will actually pass the data, index, and attribute value of the current
+            // DOM object to this function, but for our purposes, we can omit the attribute value
+            function arc2Tween(d, indx) {
+                // this will return an interpolater function that returns values between 
+                //'this._current' and 'd' given an input between 0 and 1
+                var interp = d3.interpolate(this._current, d.value);    
+
+                // update this._current to match the new value
+                this._current = d.value;  
+
+                // returns a function that attrTween calls with a time input between 0-1; 0 as the
+                // start time, and 1 being the end of the animation              
+                return function(t) {
+                    // use the time to get an interpolated value`(between this._current and d)                  
+                    
+                    //d.value = interp(t) // this will overwrite the original object
+                    //TODO merge value with original object into a new one insted of the following
+                    var obj = {
+                        skill: d.skill,
+                        value : interp(t)
+                    }
+
+                    // pass this new information to the accessor
+                    // function to calculate the path points.
+
+                    // n.b. we need to manually pass along the
+                    //  index to drawArc so since the calculation of
+                    //  the radii depend on knowing the index.
+                    return drawArc(obj, indx);
+                }
+            };
 
             function renderText() {
                 labels.data(dataset)
@@ -207,7 +232,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         var initialize = function() {
             //render the chart
-            render(dataFront);
+            render(data[currentData].data);
 
             // making the click circle if not exists
             if(!d3.selectAll("circle.click-circle")[0].length) {
@@ -219,9 +244,9 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                     .attr('r', arcMin*0.85)
                     .attr('fill', buttonColor)
                     .on('click', function() {
-                        var data = toggleData();
+                        toggleData();
                         toggleButton();
-                        render(data);
+                        render(data[currentData].data);
                     })
                     .on('mouseover', function() {
                         d3.select(this).classed('highlighted', true);
@@ -232,14 +257,14 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
                 // add the label to the button
                 d3.select('svg').append('text')
-                    .text(currentRender)
+                    .text(data[currentData].set)
                     .attr('class', 'skills-button-text')
                     .attr('x', getButtonTextPosition)
                     .attr('y', height/2 + 5)
                     .on("click", function() {
-                      var data = toggleData();
-                      toggleButton();
-                      render(data);
+                        toggleData();
+                        toggleButton();
+                        render(data[currentData].data);
                     }).on('mouseover', function() {
                         d3.select('circle.click-circle').classed('highlighted', true);
                     })
@@ -251,15 +276,11 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         // toggle dataset 
         var toggleData = function(){
-            var data;
-            if(currentRender == FRONT){
-                data = dataBack; 
-                currentRender = BACK; 
+            if(currentData == data.length-1) {
+                currentData = 0;
             } else {
-                data = dataFront;
-                currentRender = FRONT;
+                currentData++;
             }
-            return data;
         }
 
         // toggle button text 
@@ -273,7 +294,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
             function changeText(){
                 d3.select('svg').select('text.skills-button-text')
-                  .text(currentRender)    
+                  .text(data[currentData].set)    
                   .attr('x', getButtonTextPosition);
             }        
         }
