@@ -316,7 +316,7 @@ portfolio.Common = {
     },
 
     showcase: function(){
-        $("#showcase").flickity({
+        $("#myWorks").flickity({
             wrapAround: true,
             pageDots: false
         });
