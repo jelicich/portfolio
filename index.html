@@ -24,9 +24,10 @@
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/flickity/1.1.0/flickity.min.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,300italic,300">
-   <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
- -->
+    <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,300italic,300"> -->
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
     
@@ -216,8 +217,31 @@
           <div class="section-inner">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6 col-sm-offset-3">
                         <h2>Contact</h2>
+                        
+                        <form>
+                            <div class="field name-box">
+                                <input type="text" id="name" placeholder="Who Are You?"/>
+                                <label for="name">Name</label>
+                                <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
+                            </div>
+
+                            <div class="field email-box">
+                                <input type="text" id="email" placeholder="name@email.com"/>
+                                <label for="email">Email</label>
+                                <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
+                            </div>
+
+                            <div class="field msg-box">
+                                <textarea id="msg" rows="4" placeholder="Your message goes here..."></textarea>
+                                <label for="msg">Msg</label>
+                                <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
+                            </div>
+
+                            <input class="button" type="submit" value="Send" />
+                      </form>
+
                     </div>
                 </div>
             </div>

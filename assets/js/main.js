@@ -344,6 +344,53 @@ portfolio.Common = {
     }
 }
 
+portfolio.Contact = $.extend(true, {}, portfolio.Section, {
+    init: function() {
+        //do things for section
+        $('textarea').blur(function () {
+            $('textarea').each(function () {
+                $this = $(this);
+                if ( this.value != '' ) {
+                  $this.addClass('focused');
+                  $('textarea + label + span').css({'opacity': 1});
+                }
+                else {
+                  $this.removeClass('focused');
+                  $('textarea + label + span').css({'opacity': 0});
+                }
+            });
+        });
+
+$('.field:first-child input').blur(function () {
+    $('.field:first-child input').each(function () {
+        $this = $(this);
+        if ( this.value != '' ) {
+          $this.addClass('focused');
+          $('.field:first-child input + label + span').css({'opacity': 1});
+        }
+        else {
+          $this.removeClass('focused');
+          $('.field:first-child input + label + span').css({'opacity': 0});
+        }
+    });
+});
+
+$('.field:nth-child(2) input').blur(function () {
+    $('.field:nth-child(2) input').each(function () {
+        $this = $(this);
+        if ( this.value != '' ) {
+          $this.addClass('focused');
+          $('.field:nth-child(2) input + label + span').css({'opacity': 1});
+        }
+        else {
+          $this.removeClass('focused');
+          $('.field:nth-child(2) input + label + span').css({'opacity': 0});
+        }
+    });
+});
+    }
+});
+
 portfolio.EventHandler = {
     events: {
         SECTION_SHOWN: 'sectionShown',
@@ -380,6 +427,7 @@ portfolio.EventHandler = {
         portfolio.Common.init();
         portfolio.About.init();
         portfolio.Skills.init();
+        portfolio.Contact.init();
 
         ( function( $ ) {
             // Init Skrollr

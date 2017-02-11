@@ -1,3 +1,161 @@
 #contact{
 	background: #3F51B5;
+
+
+
+// Transition Ease
+@mixin ease($time:333ms, $attr:all, $curve:ease-in-out) {
+	  -webkit-transition: $attr $time $curve;
+	  -moz-transition: $attr $time $curve;
+	  -o-transition: $attr $time $curve;
+	  -ms-transition: $attr $time $curve;
+	  transition: $attr $time $curve;
+}
+
+//-- Lato --//
+
+
+@mixin lato-3 {font-family: 'Lato', sans-serif; font-weight:300;}
+@mixin lato-3-i {@include lato-3; font-style:italic;}
+
+@mixin lato-4 {font-family: 'Lato', sans-serif; font-weight:400;}
+@mixin lato-4-i {@include lato-4; font-style:italic;}
+
+@mixin lato-7 {font-family: 'Lato', sans-serif; font-weight:700;}
+@mixin lato-7-i {@include lato-7; font-style:italic;}
+
+
+
+// Colors
+$blue:#313A3D;
+$active: #FF5252;
+$dark-active:darken($active, 20%);
+$grey:#B6B6B6;
+$light-grey:lighten($grey, 15%);
+
+$background:#efefef;
+$field-color:#E8E9EA;
+
+
+
+
+// Form
+form {
+	    .field {
+		    width:100%;
+		    position:relative;
+		    margin-bottom:15px;
+
+			$hover-label-width:18%;
+		    $placeholder-bumper:1.5%;
+
+			// Label
+		    label {
+			      text-transform: uppercase;
+			      position:absolute;
+			      top:0;
+			      left:0;
+			      background:$blue;
+			      width:100%;
+			      padding: 18px 15px;
+			      font-size: 14px;
+			      font-weight: normal;
+			      letter-spacing: 0.075em;
+
+			      @include ease(333ms);
+
+			      // Checkmark
+			      + span {
+				       
+				        opacity: 0;
+				        color: #fff;
+				        position:absolute;
+				        top: 4px;
+				        left: 20px;
+				        font-size: 2.5em;
+
+				        @include ease(333ms);
+		      	}
+		    }
+
+			// Fields
+	    	input[type="text"],
+		    textarea {
+			      border:none;
+			      background:$field-color;
+			      width:100% - $hover-label-width - $placeholder-bumper;
+			      margin:0;
+			      padding: 18px 0;
+			      padding-left:$hover-label-width + $placeholder-bumper;
+			      color:$blue;
+			      font-size: 14px;
+			      letter-spacing: 0.05em;
+			      text-transform: uppercase;
+
+			      &#msg {
+				        height: 18px;
+				        resize: none;
+				        @include ease(333ms);
+			      }
+
+  				// Focus and JS Toggle Class
+			      &:focus,
+			      &.focused {
+				        outline:none;
+
+    					&#msg {
+					          padding-bottom:150px;
+				        }
+
+    					+ label {
+					          width:$hover-label-width;
+					          background:$active;
+					          // color:$blue;
+				        }
+			      }
+
+  				// JS Toggle Class
+			      &.focused {
+				        + label {
+					          color: $active;
+				        }
+			      }
+		    }
+
+			// Field Hover
+		    &:hover {
+			      label {
+				        width:$hover-label-width;
+				        background:$blue;
+				        color:white;
+			      }
+		    }
+	    }
+
+	    // Submit Button
+	    input[type="submit"] {
+		    background:$active;
+		    color:white;
+		    -webkit-appearance: none;
+		    border: none;
+		    text-transform: uppercase;
+			position:relative;
+			margin-top: 15px;
+		    padding: 13px 50px;
+		    font-size: 1.4em;
+		    letter-spacing: 0.1em;
+		    @include lato-3;
+		    @include ease;
+    
+			&:hover {
+			      background:$blue;
+			      color:$active;
+		    }
+
+			&:focus {
+			      outline:none;
+			      background:$dark-active;
+		    }
+	    }
+	}
 }
