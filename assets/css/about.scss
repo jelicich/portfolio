@@ -1,18 +1,22 @@
 #about{
-	background: #00BCD4;
+	background: red;
 
 	.section-inner{
-		display: flex;
 
 		.container{
-			margin: auto;
+			height: 100%;
+			
+			.vcenter{
+				display: flex;
+				height: 100%;
+
+				>div{
+					margin: auto;
+				}
+			}
 
 			p{
 				font-size: 22px;
-			}
-
-			.img-container{
-				
 			}
 
 			p.secondary-text{
@@ -21,10 +25,15 @@
 				padding-top: 15px;	
 				margin-bottom: 15px;
 			}
-
-			img{
-				border-radius: 50%;
+				
+			img.img-about{
+				display: table-cell;
+				vertical-align: middle;
+				border-radius:50%;
 			}
+			
+
+			
 
 		}
 	}

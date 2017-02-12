@@ -1,19 +1,19 @@
 var portfolio = {}
 
 portfolio.Section = {
-    SHOWN: false,
+    shown: false,
     init: function() {},
     //TODO check if needed
     setShown: function(shown) {
-        this.SHOWN = shown;
+        this.shown = shown;
     },
 
     isShown: function() {
-        return this.SHOWN;
+        return this.shown;
     }
 }
 
-portfolio.About = $.extend(true, {}, portfolio.Section, {
+portfolio.Home = $.extend(true, {}, portfolio.Section, {
     init: function() {
         //do things for section
         $('#home h1').css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});
@@ -32,6 +32,27 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         //Data to be displayed. Edit as desired
         //Note: this code will expect the same length on every dataset.
+        var initData =  [{
+            set: '',
+            data: [{
+                skill: '',
+                value: 0
+            },{
+                skill: '',
+                value: 0
+            },{
+                skill: '',
+                value: 0
+            },{
+                skill: '',
+                value: 0
+            },{
+                skill: '',
+                value: 0
+            }]
+        }];
+
+
         var data = [{
             set: 'Front-end',
             data: [{
@@ -102,7 +123,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         var arcMin = 75; // inner radius of the first arc
         var arcWidth = 25;
         var arcPad = 1;
-        var transitionDuration = 300;
+        var transitionDuration = 500;
         var colorFrom = '#dadada';
         var colorTo = '#3e3e3e';
         var buttonColor = 'rgba(201, 201, 201, 0.5)'; //if changed, update fill value of .click-circle.highlighted in skills.scss
@@ -232,7 +253,23 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         var initialize = function() {
             //render the chart
-            render(data[currentData].data);
+            //render(data[currentData].data);
+            
+            //render the chart with empty data to animate when frist scroll
+            render(initData[0].data);
+
+            var waypoint = new Waypoint({
+                element: document.getElementById('chart'),
+                handler: function() {
+                    if(!portfolio.Skills.isShown()) {
+                        console.log('ds');
+                        portfolio.Skills.setShown(true);
+                        render(data[currentData].data)
+                    }   
+                },
+                offset: 300
+            })
+
 
             // making the click circle if not exists
             if(!d3.selectAll("circle.click-circle")[0].length) {
@@ -425,7 +462,7 @@ portfolio.EventHandler = {
 {
     $(window).on('load',function() {
         portfolio.Common.init();
-        portfolio.About.init();
+        portfolio.Home.init();
         portfolio.Skills.init();
         portfolio.Contact.init();
 

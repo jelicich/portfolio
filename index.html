@@ -21,7 +21,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.1.0/flickity.pkgd.min.js"></script>
     <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/flickity/1.1.0/flickity.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,300italic,300"> -->
@@ -93,22 +94,18 @@
         <section id="about" class="portfolio-section">
           <div class="section-inner">
             <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="row">
-                          <div class="col-md-4 col-md-push-8 col-sm-12">
-                            <div class="img-container">
-                              <img src="assets/img/about.jpg" alt="About picture">
-                            </div>
-                          </div>
-                          <div class="col-md-8 col-md-pull-4 col-sm-12">
-                            <h1>About</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            <p class="secondary-text">Secondary information | Javascript | Other stuff</p>
-                            <a href="http://www.linkedin.com" class="btn btn-default">Linkedin</a> <a href="#" class="btn btn-default">Download CV</a> 
-                          </div>
-                        </div>
-                        
+                <div class="row vcenter">
+                    <div class="col-sm-12 col-md-4 col-md-push-8">
+                      <img src="assets/img/about.jpg" class="img-about" alt="About picture">
+                    </div>
+                    <div class="col-sm-12 col-md-8 col-md-pull-4">
+                      <h1>About</h1>
+                      <p>LLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation -ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est lab</p>
+                      <p class="secondary-text">Lorem ipsum javascript php</p>
+                      <p>
+                        <a href="#" class="btn btn-default"><i class="material-icons">description</i> CV </a>
+                        <a href="#" class="btn btn-default"><i class="material-icons">get_app</i> CV </a>
+                      </p>
                     </div>
                 </div>
             </div>
@@ -121,7 +118,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h2>Skills</h2>
-                        <div class="chart-container"></div>
+                        <div class="chart-container" id="chart"></div>
                     </div>
                 </div>
             </div>
