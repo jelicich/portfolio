@@ -75,62 +75,6 @@ h1 {
       opacity: 0;
       transition: opacity 1s ease-in; }
 
-@-webkit-keyframes bounce-from-top {
-  0% {
-    transform: translate(0, -100%); }
-  80% {
-    transform: translate(0, 10%); }
-  100% {
-    transform: translate(0, 0); } }
-@-moz-keyframes bounce-from-top {
-  0% {
-    transform: translate(0, -100%); }
-  80% {
-    transform: translate(0, 10%); }
-  100% {
-    transform: translate(0, 0); } }
-@-o-keyframes bounce-from-top {
-  0% {
-    transform: translate(0, -100%); }
-  80% {
-    transform: translate(0, 10%); }
-  100% {
-    transform: translate(0, 0); } }
-@keyframes bounce-from-top {
-  0% {
-    transform: translate(0, -100%); }
-  80% {
-    transform: translate(0, 10%); }
-  100% {
-    transform: translate(0, 0); } }
-@-webkit-keyframes bounce-from-bottom {
-  0% {
-    transform: translate(0, 100%); }
-  80% {
-    transform: translate(0, -10%); }
-  100% {
-    transform: translate(0, 0); } }
-@-moz-keyframes bounce-from-bottom {
-  0% {
-    transform: translate(0, 100%); }
-  80% {
-    transform: translate(0, -10%); }
-  100% {
-    transform: translate(0, 0); } }
-@-o-keyframes bounce-from-bottom {
-  0% {
-    transform: translate(0, 100%); }
-  80% {
-    transform: translate(0, -10%); }
-  100% {
-    transform: translate(0, 0); } }
-@keyframes bounce-from-bottom {
-  0% {
-    transform: translate(0, 100%); }
-  80% {
-    transform: translate(0, -10%); }
-  100% {
-    transform: translate(0, 0); } }
 #about {
   background: red; }
   #about .section-inner .container {
@@ -148,9 +92,12 @@ h1 {
       padding-top: 15px;
       margin-bottom: 15px; }
     #about .section-inner .container img.img-about {
-      display: table-cell;
-      vertical-align: middle;
-      border-radius: 50%; }
+      border-radius: 50%;
+      transition: opacity 0.5s ease-in;
+      opacity: 0; }
+    #about .section-inner .container .text-wrapper {
+      transition: opacity 0.5s ease-in;
+      opacity: 0; }
 
 #skills {
   background: #FF5252; }
@@ -390,5 +337,118 @@ h1 {
 footer {
   height: 250px;
   background: #3d3d3d; }
+
+@-webkit-keyframes bounce-from-top {
+  0% {
+    transform: translate(0, -100%); }
+  80% {
+    transform: translate(0, 10%); }
+  100% {
+    transform: translate(0, 0); } }
+@-moz-keyframes bounce-from-top {
+  0% {
+    transform: translate(0, -100%); }
+  80% {
+    transform: translate(0, 10%); }
+  100% {
+    transform: translate(0, 0); } }
+@-o-keyframes bounce-from-top {
+  0% {
+    transform: translate(0, -100%); }
+  80% {
+    transform: translate(0, 10%); }
+  100% {
+    transform: translate(0, 0); } }
+@keyframes bounce-from-top {
+  0% {
+    transform: translate(0, -100%); }
+  80% {
+    transform: translate(0, 10%); }
+  100% {
+    transform: translate(0, 0); } }
+@-webkit-keyframes bounce-from-bottom {
+  0% {
+    transform: translate(0, 100%); }
+  80% {
+    transform: translate(0, -10%); }
+  100% {
+    transform: translate(0, 0); } }
+@-moz-keyframes bounce-from-bottom {
+  0% {
+    transform: translate(0, 100%); }
+  80% {
+    transform: translate(0, -10%); }
+  100% {
+    transform: translate(0, 0); } }
+@-o-keyframes bounce-from-bottom {
+  0% {
+    transform: translate(0, 100%); }
+  80% {
+    transform: translate(0, -10%); }
+  100% {
+    transform: translate(0, 0); } }
+@keyframes bounce-from-bottom {
+  0% {
+    transform: translate(0, 100%); }
+  80% {
+    transform: translate(0, -10%); }
+  100% {
+    transform: translate(0, 0); } }
+@-webkit-keyframes bounce-from-left {
+  0% {
+    transform: translate(-100%, 0); }
+  80% {
+    transform: translate(10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@-moz-keyframes bounce-from-left {
+  0% {
+    transform: translate(-100%, 0); }
+  80% {
+    transform: translate(10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@-o-keyframes bounce-from-left {
+  0% {
+    transform: translate(-100%, 0); }
+  80% {
+    transform: translate(10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@keyframes bounce-from-left {
+  0% {
+    transform: translate(-100%, 0); }
+  80% {
+    transform: translate(10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@-webkit-keyframes bounce-from-right {
+  0% {
+    transform: translate(100%, 0); }
+  80% {
+    transform: translate(-10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@-moz-keyframes bounce-from-right {
+  0% {
+    transform: translate(100%, 0); }
+  80% {
+    transform: translate(-10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@-o-keyframes bounce-from-right {
+  0% {
+    transform: translate(100%, 0); }
+  80% {
+    transform: translate(-10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
+@keyframes bounce-from-right {
+  0% {
+    transform: translate(100%, 0); }
+  80% {
+    transform: translate(-10%, 0); }
+  100% {
+    transform: translate(0, 0); } }
 
 /*# sourceMappingURL=main.css.map */

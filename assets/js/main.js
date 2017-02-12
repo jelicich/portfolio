@@ -21,6 +21,24 @@ portfolio.Home = $.extend(true, {}, portfolio.Section, {
     }
 });
 
+portfolio.About = $.extend(true, {}, portfolio.Section, {
+    init: function() {
+        var waypoint = new Waypoint({
+            element: document.getElementById('about'),
+            handler: function() {
+                console.log('sarasa');
+                if(!portfolio.About.isShown()) {
+                    portfolio.About.setShown(true);
+                    $('#about .img-about').css({opacity: '1', animation: 'bounce-from-right 0.5s ease-out'});
+                    $('#about .text-wrapper').css({opacity: '1'});
+                    //$('#about .text-wrapper').css({opacity: '1', animation: 'bounce-from-left 0.5s ease-out'});
+                }   
+            },
+            offset: 300
+        })        
+    },
+});
+
 portfolio.Skills = $.extend(true, {}, portfolio.Section, {
     currentData: 0,
 
@@ -108,6 +126,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         var initData = [{set: '',data: [{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0}]}];
         
         //Note: this code will expect the same length on every dataset.
+        //starts with empty data to animate from 0
         this.startChart(initData);
 
         //listener to update the chart with the proper data
@@ -334,35 +353,6 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
     
 });
 
-portfolio.Common = {
-   
-    init : function() 
-    {	
-        this.scrollTo();
-        this.showcase();
-
-    },
-
-    scrollTo: function(){
-    	$('a[href^="#"]').on('click', function(event) {
-		    var $target = $(this.getAttribute('href'));
-		    if( $target.length ) {
-		        event.preventDefault();
-		        $('html, body').stop().animate({
-		            scrollTop: $target.offset().top
-		        }, 1000);
-		    }
-		});
-    },
-
-    showcase: function(){
-        $("#showcase").flickity({
-            wrapAround: true,
-            pageDots: false
-        });
-    }
-}
-
 portfolio.Contact = $.extend(true, {}, portfolio.Section, {
     init: function() {
         //do things for section
@@ -410,6 +400,35 @@ $('.field:nth-child(2) input').blur(function () {
     }
 });
 
+portfolio.Common = {
+   
+    init : function() 
+    {   
+        this.scrollTo();
+        this.showcase();
+
+    },
+
+    scrollTo: function(){
+        $('a[href^="#"]').on('click', function(event) {
+            var $target = $(this.getAttribute('href'));
+            if( $target.length ) {
+                event.preventDefault();
+                $('html, body').stop().animate({
+                    scrollTop: $target.offset().top
+                }, 1000);
+            }
+        });
+    },
+
+    showcase: function(){
+        $("#showcase").flickity({
+            wrapAround: true,
+            pageDots: false
+        });
+    }
+}
+
 portfolio.EventHandler = {
     events: {
         SECTION_SHOWN: 'sectionShown',
@@ -445,6 +464,7 @@ portfolio.EventHandler = {
     $(window).on('load',function() {
         portfolio.Common.init();
         portfolio.Home.init();
+        portfolio.About.init();
         portfolio.Skills.init();
         portfolio.Contact.init();
 

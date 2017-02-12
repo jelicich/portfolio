@@ -27,14 +27,15 @@
 			}
 				
 			img.img-about{
-				display: table-cell;
-				vertical-align: middle;
 				border-radius:50%;
+				transition: opacity 0.5s ease-in;
+				opacity: 0;
 			}
-			
 
-			
-
+			.text-wrapper{
+				transition: opacity 0.5s ease-in;
+				opacity: 0;
+			}
 		}
 	}
 }
