@@ -1,6 +1,11 @@
 #works{
 	background: #FF4081;
 
+	.course-item.slide{
+		opacity: 0;
+		transition: opacity 1s ease-out;
+	}
+
 }
 
 .flickity-prev-next-button.previous {
@@ -143,6 +148,24 @@
   
 }
 
+#modal-works{
+	div,p,li,h4{
+		color: #000;	
+	}
 
+	.modal-loading{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background: #fff url('../img/loading.gif') no-repeat center;
+		border-radius: 5px;
+	}
 
+	button.close{
+		position: relative;
+		z-index: 10;
+	}
+}
 

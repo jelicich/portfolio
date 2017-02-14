@@ -132,13 +132,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h2>Works</h2>
+                        <h2>Title</h2>
 
-                        <div class="works-content cf" data-toggle="modal" data-target="#myModal">
+                        <div class="works-content cf">
                             <div class="courses cf" id="showcase">
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="sarasa">
                                       <div class="course-thumbnail">
                                         <img src="https://cms-assets.tutsplus.com/legacy-courses/CRS-96680.png" height="277" width="400" alt="image">
                                       </div>
@@ -154,7 +154,7 @@
                                   </div>
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="ab">
                                       <div class="course-thumbnail">
                                         <img src="https://s-media-cache-ak0.pinimg.com/736x/80/51/ba/8051ba29d8450492b819ae2aace51b99.jpg" height="277" width="400" alt="">
                                       </div>
@@ -171,7 +171,7 @@
                                   </div>
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="si">
                                       <div class="course-thumbnail">
                                         <img src="https://cms-assets.tutsplus.com/uploads/users/48/posts/22337/preview_image/Linux-setup-for-developers.png" height="277" width="400" alt="Linux Image">
                                       </div>
@@ -187,7 +187,7 @@
                                   </div>
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="no">
                                       <div class="course-thumbnail">
                                         <img src="http://a3ab771892fd198a96736e50.javacodegeeks.netdna-cdn.com/wp-content/uploads/2014/03/Atom-Text-Editor-By-GitHub.png" height="277" width="400" alt="TextEdit Image">
                                       </div>
@@ -259,16 +259,18 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal-works" tabindex="-1" role="dialog" aria-labelledby="modal-works-title">
   <div class="modal-dialog" role="document">
    
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="modal-works-title"></h4>
       </div>
       <div class="modal-body">
-        ...
+        <div class="work-description"></div>
+        <div class="work-img"></div>
+        <div class="work-link"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

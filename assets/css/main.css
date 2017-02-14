@@ -113,6 +113,9 @@ h1 {
 
 #works {
   background: #FF4081; }
+  #works .course-item.slide {
+    opacity: 0;
+    transition: opacity 1s ease-out; }
 
 .flickity-prev-next-button.previous {
   left: -30px; }
@@ -233,6 +236,20 @@ h1 {
   bottom: 5%;
   font-size: 18px;
   color: #AAB2BD; }
+
+#modal-works div, #modal-works p, #modal-works li, #modal-works h4 {
+  color: #000; }
+#modal-works .modal-loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #fff url("../img/loading.gif") no-repeat center;
+  border-radius: 5px; }
+#modal-works button.close {
+  position: relative;
+  z-index: 10; }
 
 #contact {
   background: #3F51B5; }

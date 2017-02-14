@@ -26,7 +26,6 @@ portfolio.About = $.extend(true, {}, portfolio.Section, {
         var waypoint = new Waypoint({
             element: document.getElementById('about'),
             handler: function() {
-                console.log('sarasa');
                 if(!portfolio.About.isShown()) {
                     portfolio.About.setShown(true);
                     $('#about .img-about').css({opacity: '1', animation: 'bounce-from-right 0.5s ease-out'});
@@ -400,13 +399,82 @@ $('.field:nth-child(2) input').blur(function () {
     }
 });
 
+
+portfolio.Works = $.extend(true, {}, portfolio.Section, {
+    init: function() {
+        var t = this;
+        
+        t.showcase();
+
+        $('.card').click(function(){
+            var content = $(this).data('content');
+            t.loadContent(content);
+        });
+
+        var waypoint = new Waypoint({
+            element: document.getElementById('works'),
+            handler: function() {
+                if(!portfolio.Works.isShown()) {
+                    portfolio.Works.setShown(true);
+                    var $slides = $('#works .course-item.slide');
+                    $slides.each(function(i,el){
+                        setTimeout(function(){
+                            $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
+                        },i*100)
+                        
+                    }); 
+                    
+                    /*for(var i = 0; i < slides.length; i++){
+                        setTimeout(function() {
+                            $(slides[i]).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
+                        },500); 
+                    }*/
+                    /*.each(function(i,el){
+                        setTimeout(function() {
+                            $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
+                        },500); 
+                        
+                    })*/
+                }   
+            },
+            offset: 100
+        })    
+
+    },
+
+    showcase: function() {
+        $("#showcase").flickity({
+            wrapAround: true,
+            pageDots: false
+        });
+    },
+
+    loadContent: function(content) {
+        var file = content+'.json';
+        var $curtain = $('<div>').addClass('modal-loading');
+        $('.modal-content', '#modal-works').append($curtain);
+        
+        $.getJSON( '/assets/json/' + file, function(data) {
+            var items = [];
+            console.log(data.name);
+            $('#modal-works-title').html(data.name);
+            $('.work-description').html(data.description);
+            $('.work-img').html(data.img);
+            $('.work-link').html(data.link);
+
+            //remove the loader
+            $curtain.fadeOut('fast', function() {
+                $curtain.remove();
+            });
+        });
+    }
+});
+
 portfolio.Common = {
    
     init : function() 
     {   
         this.scrollTo();
-        this.showcase();
-
     },
 
     scrollTo: function(){
@@ -420,13 +488,6 @@ portfolio.Common = {
             }
         });
     },
-
-    showcase: function(){
-        $("#showcase").flickity({
-            wrapAround: true,
-            pageDots: false
-        });
-    }
 }
 
 portfolio.EventHandler = {
@@ -466,6 +527,7 @@ portfolio.EventHandler = {
         portfolio.Home.init();
         portfolio.About.init();
         portfolio.Skills.init();
+        portfolio.Works.init();
         portfolio.Contact.init();
 
         ( function( $ ) {
