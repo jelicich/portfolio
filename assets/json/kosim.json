@@ -1,0 +1,8 @@
+{
+    "id": "kosim",
+    "name": "Grupo Kosim",
+    "description": "<p>Responsive website development for Grupo Kosim using HTML, CSS, and Javascript.</p> ",
+    "link": "http://www.grupokosim.com/",
+    "img": "assets/img/kosim.jpg",
+    "tech": ["js", "html", "css"]
+}

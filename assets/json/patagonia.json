@@ -1,0 +1,8 @@
+{
+    "id": "patagonia",
+    "name": "Patagonia Distribution",
+    "description": "<p>Patagonia Distribution is an argentine gurmet food-product supplier and is part of Solution Box Group</p><p>Full-stack development using PHP, MySQL, JS, HTML, CSS.</p><p>Features: Login, Product creation/edit, Slides creation/edit, etc.</p>",
+    "link": "http://www.patagoniadistribution.com",
+    "img": "assets/img/patagonia.jpg",
+    "tech": ["php", "mysql", "js", "html", "css"]
+}

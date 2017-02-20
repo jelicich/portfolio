@@ -1,0 +1,8 @@
+{
+    "id": "inkedin",
+    "name": "Tattoo Site",
+    "description": "<p>Fullstack development using MySQL, PHP:Kohana, Javascript, HTML, CSS</p> ",
+    "link": "http://inkedin.estebanjelicich.com",
+    "img": "assets/img/inkedin.jpg",
+    "tech": ["php", "mysql", "js", "html", "css"]
+}

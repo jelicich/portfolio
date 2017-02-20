@@ -1,0 +1,8 @@
+{
+    "id": "matrix",
+    "name": "Matrix Website Builder",
+    "description": "<p>Matrix is a website builder with more than 300k users owned by Web.com.</p><p> I have developed new features such us CSS live editor, layout administrator, page administrator, etc; using either jQuery or plain Javascript and HTML/CSS.</p><p>Credentials may be given upon request.</p>",
+    "link": "http://support.web.com",
+    "img": "assets/img/matrix.jpg",
+    "tech": ["js", "html", "css"]
+}

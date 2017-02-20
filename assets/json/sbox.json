@@ -1,0 +1,8 @@
+{
+    "id": "sbox",
+    "name": "Solution Box",
+    "description": "<p>Solution Box is an IT wholesaler based in Argentina with branches in USA and Uruguay.</p><p>I have designed and coded the layout of its website using HTML, CSS and Javascript and made some minor adjustments to the backend which was done with Symfony.</p>",
+    "link": "http://www.solutionbox.com.ar",
+    "img": "assets/img/sbox.jpg",
+    "tech": ["js", "html", "css"]
+}

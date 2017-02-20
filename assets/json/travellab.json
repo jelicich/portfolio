@@ -1,0 +1,8 @@
+{
+    "id": "travellab",
+    "name": "Travellab Solutions",
+    "description": "<p>Responsive website development for Travellab Solutions using HTML, CSS, and Javascript.</p> ",
+    "link": "http://www.travellabsolutions.com",
+    "img": "assets/img/travellab.jpg",
+    "tech": ["js", "html", "css"]
+}
