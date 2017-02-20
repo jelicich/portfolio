@@ -1,40 +1,48 @@
 #about{
-	background: red;
 
 	.section-inner{
 
 		.container{
 			height: 100%;
 			
-			.vcenter{
-				display: flex;
-				height: 100%;
+			p{
+				font-size: 22px;
 
-				>div{
-					margin: auto;
+				@include mobile{
+					font-size: 14px;
 				}
 			}
 
-			p{
-				font-size: 22px;
-			}
-
 			p.secondary-text{
-				font-size: 16px;
-				border-top: 1px solid #fff;
+				font-size: 14px;
+				border-top: 1px dotted #292929;
 				padding-top: 15px;	
 				margin-bottom: 15px;
+
+				@include mobile{
+					font-size: 12px;
+				}
 			}
 				
 			img.img-about{
 				border-radius:50%;
 				transition: opacity 0.5s ease-in;
 				opacity: 0;
+
+				@include mobile{
+					width: 30%;
+					display: block;
+					margin: 0 auto;
+				}
 			}
 
 			.text-wrapper{
 				transition: opacity 0.5s ease-in;
 				opacity: 0;
+			}
+
+			.material-icons{
+				vertical-align: middle;
 			}
 		}
 	}

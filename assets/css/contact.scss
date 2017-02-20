@@ -1,31 +1,3 @@
-#contact{
-	background: #3F51B5;
-
-
-
-// Transition Ease
-@mixin ease($time:333ms, $attr:all, $curve:ease-in-out) {
-	  -webkit-transition: $attr $time $curve;
-	  -moz-transition: $attr $time $curve;
-	  -o-transition: $attr $time $curve;
-	  -ms-transition: $attr $time $curve;
-	  transition: $attr $time $curve;
-}
-
-//-- Lato --//
-
-
-@mixin lato-3 {font-family: 'Lato', sans-serif; font-weight:300;}
-@mixin lato-3-i {@include lato-3; font-style:italic;}
-
-@mixin lato-4 {font-family: 'Lato', sans-serif; font-weight:400;}
-@mixin lato-4-i {@include lato-4; font-style:italic;}
-
-@mixin lato-7 {font-family: 'Lato', sans-serif; font-weight:700;}
-@mixin lato-7-i {@include lato-7; font-style:italic;}
-
-
-
 // Colors
 $blue:#313A3D;
 $active: #FF5252;
@@ -36,11 +8,35 @@ $light-grey:lighten($grey, 15%);
 $background:#efefef;
 $field-color:#E8E9EA;
 
+#contact{
+	height: 80vh;
+	overflow: hidden;
+
+	h1{
+		margin: 0;
+		opacity: 0;
+		transition: opacity 1s ease-out;
+	}
+
+	form{
+		opacity: 0;
+		transition: opacity 1s ease-out;
+	}
 
 
+	// Transition Ease
+	@mixin ease($time:333ms, $attr:all, $curve:ease-in-out) {
+		  -webkit-transition: $attr $time $curve;
+		  -moz-transition: $attr $time $curve;
+		  -o-transition: $attr $time $curve;
+		  -ms-transition: $attr $time $curve;
+		  transition: $attr $time $curve;
+	}
 
-// Form
-form {
+	// Form
+	form {
+		margin-top: 10px;
+
 	    .field {
 		    width:100%;
 		    position:relative;
@@ -51,7 +47,8 @@ form {
 
 			// Label
 		    label {
-			      text-transform: uppercase;
+		    	color: #d3d3d3;
+			      //text-transform: uppercase;
 			      position:absolute;
 			      top:0;
 			      left:0;
@@ -65,7 +62,8 @@ form {
 			      @include ease(333ms);
 
 			      // Checkmark
-			      + span {
+			      + span,
+			      + span + span {
 				       
 				        opacity: 0;
 				        color: #fff;
@@ -83,18 +81,23 @@ form {
 		    textarea {
 			      border:none;
 			      background:$field-color;
-			      width:100% - $hover-label-width - $placeholder-bumper;
+			      width:100%;// - $hover-label-width - $placeholder-bumper;
 			      margin:0;
 			      padding: 18px 0;
 			      padding-left:$hover-label-width + $placeholder-bumper;
 			      color:$blue;
 			      font-size: 14px;
 			      letter-spacing: 0.05em;
-			      text-transform: uppercase;
+			      //text-transform: uppercase;
+
+			      @include mobile{
+			      	padding-left: 25% + 5%
+			      }
 
 			      &#msg {
-				        height: 18px;
+				        height: 55px;
 				        resize: none;
+				        overflow: hidden;
 				        @include ease(333ms);
 			      }
 
@@ -104,13 +107,16 @@ form {
 				        outline:none;
 
     					&#msg {
-					          padding-bottom:150px;
+					          padding-bottom:100px;
 				        }
 
     					+ label {
 					          width:$hover-label-width;
 					          background:$active;
 					          // color:$blue;
+					          @include mobile{
+					          	width: 26%;
+					          }
 				        }
 			      }
 
@@ -140,16 +146,17 @@ form {
 		    border: none;
 		    text-transform: uppercase;
 			position:relative;
-			margin-top: 15px;
+			//margin-top: 15px;
 		    padding: 13px 50px;
 		    font-size: 1.4em;
 		    letter-spacing: 0.1em;
-		    @include lato-3;
+		    opacity: 0.8;
+		    //@include lato-3;
 		    @include ease;
     
 			&:hover {
-			      background:$blue;
-			      color:$active;
+			      opacity: 1;
+			      //color:$active;
 		    }
 
 			&:focus {
@@ -157,5 +164,14 @@ form {
 			      background:$dark-active;
 		    }
 	    }
+	}
+}
+
+//modal
+
+#modal-contact{
+
+	.modal-content{
+		border-radius: 0 !important;
 	}
 }

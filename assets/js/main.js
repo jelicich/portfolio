@@ -45,52 +45,43 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
     data : [{
         set: 'Front-end',
         data: [{
+            skill: 'Task Runners',
+            value: 40
+        },{
             skill: 'CSS',
-            value: 10
+            value: 85
         },{
             skill: 'HTML',
             value: 90
         },{
             skill: 'Javascript',
             value: 75
-        },{
-            skill: 'Angular',
-            value: 20
-        },{
-            skill: 'Sass/Less',
-            value: 75
-        }]
+        },]
     },
     {
         set: 'Back-end',
             data: [{
-            skill: 'PHP',
-            value: 10
+            skill: 'Linux',
+            value: 30
+        },{
+            skill: 'Apache',
+            value: 30
         },{
             skill: 'MySQL',
             value: 40
         },{
-            skill: 'LAMP',
-            value: 35
-        },{
-            skill: 'Kohana',
-            value: 50
-        },{
-            skill: 'Sarasa',
-            value: 25
+            skill: 'PHP',
+            value: 45
         }]
     },
     {
-        set: 'Others',
+        set: 'Misc',
             data: [{
             skill: 'Coffee',
-            value: 90
+            value: 75
         },{
             skill: 'Mate',
-            value: 10
-        },{
-            skill: 'Small talk',
-            value: 50
+            value: 15
         },{
             skill: 'Ping Pong',
             value: 70
@@ -111,10 +102,11 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         arcMin: 75, // inner radius of the first arc
         arcWidth: 25,
         arcPad: 1,
+        textDown: 18,
         transitionDuration: 500,
         colorFrom: '#dadada',
         colorTo: '#3e3e3e',
-        buttonColor: 'rgba(201, 201, 201, 0.5)', //if changed, update fill value of .click-circle.highlighted in skills.scss. also this can be set in scss
+        buttonColor: '#FF5252',//'rgba(201, 201, 201, 0.5)', //if changed, update fill value of .click-circle.highlighted in skills.scss. also this can be set in scss
 
         //chart will be placed in the middle of the svg
         translate: 'translate(' + $('.chart-container').width()/2 + ', ' + $('.chart-container').height()/2 + ')'
@@ -122,8 +114,14 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
     init: function() {
         var t = this;
-        var initData = [{set: '',data: [{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0}]}];
-        
+        var initData = [{set: '',data: [{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0},{skill: '',value: 0}]}];
+
+        //reset config for mobile:
+        if($('.chart-container').width() < 414) {
+            t.config.arcMin = 50;
+            t.config.arcWidth = 20;
+            t.config.textDown = 14;
+        }
         //Note: this code will expect the same length on every dataset.
         //starts with empty data to animate from 0
         this.startChart(initData);
@@ -135,6 +133,9 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                 if(!portfolio.Skills.isShown()) {
                     portfolio.Skills.setShown(true);
                     t.renderChart(t.data[t.currentData].data)
+
+                    var $section = $('#skills');
+                    $section.css('opacity', 1);
                 }   
             },
             offset: 300
@@ -150,7 +151,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         //color scale
         var colorScale = d3.scale.linear().domain([0, 100]).range([d3.rgb(config.colorFrom), d3.rgb(config.colorTo)]);
 
-        var svg = d3.select('svg'); 
+        var svg = d3.select('svg#chart-svg'); 
 
         //arc accessor
         var drawArc = d3.svg.arc()
@@ -240,11 +241,11 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                 .enter().append('text')
                 .attr('class', 'skill-label')
                 .attr('x', 5) //Move the text from the start angle of the arc
-                .attr('dy', 18) //Move the text down
+                .attr('dy', config.textDown) //Move the text down
                 .append('textPath')
                 .attr('class', 'skill-label-path')
                 .attr('xlink:href',function(d,i){return '#skill-arc-'+i;})
-                .text(function(d){ return d.skill; });
+                .text(function(d){ return d.skill ; });
         };
 
         function updateText() {
@@ -254,7 +255,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                 .style('opacity', 0)
                 .transition().duration(config.transitionDuration/2)
                 .style('opacity', 1)
-                .text(function(d) { return d.skill; })
+                .text(function(d) { return d.skill + ' : ' + d.value + '%'; })
         }
 
 
@@ -267,7 +268,8 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         // append svg to the DIV
         d3.select('.chart-container').append('svg:svg')
             .attr('width', config.width)
-            .attr('height', config.height);
+            .attr('height', config.height)
+            .attr('id','chart-svg');
         
         //render the chart
         //render(data[currentData].data);
@@ -277,7 +279,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         if(!d3.selectAll("circle.click-circle")[0].length) {
 
             // making the click circle for red arcs
-            d3.select('svg').append('circle')
+            d3.select('svg#chart-svg').append('circle')
                 .attr('class', 'click-circle')
                 .attr('transform', config.translate)
                 .attr('r', config.arcMin*0.85)
@@ -295,7 +297,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                 });
 
             // add the label to the button
-            d3.select('svg').append('text')
+            d3.select('svg#chart-svg').append('text')
                 .text(t.data[t.currentData].set)
                 .attr('class', 'skills-button-text')
                 .attr('x', getButtonTextPosition)
@@ -323,7 +325,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         // toggle button text 
         function toggleButton(){
-            d3.select('svg').select('text.skills-button-text')
+            d3.select('svg#chart-svg').select('text.skills-button-text')
                 .transition().duration(config.transitionDuration/2)
                 .style('opacity', 0)
                 .each('end', changeText) // changes the text when the opacity is 0 
@@ -331,7 +333,7 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
                 .style('opacity', 1);
 
             function changeText(){
-                d3.select('svg').select('text.skills-button-text')
+                d3.select('svg#chart-svg').select('text.skills-button-text')
                   .text(t.data[t.currentData].set)    
                   .attr('x', getButtonTextPosition);
             }        
@@ -354,7 +356,24 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
 portfolio.Contact = $.extend(true, {}, portfolio.Section, {
     init: function() {
-        //do things for section
+        var t = this;
+        
+        var waypoint = new Waypoint({
+            element: document.getElementById('contact'),
+            handler: function() {
+                if(!portfolio.Contact.isShown()) {
+                    portfolio.Contact.setShown(true);
+                    
+                    var $title = $('#contact h1');
+                    $title.css('opacity', 1);
+
+                    var $form = $('#contact form');
+                    $form.css({opacity: '1', animation: 'bounce-from-bottom 0.5s ease-out'});
+                }   
+            },
+            offset: 100
+        })
+
         $('textarea').blur(function () {
             $('textarea').each(function () {
                 $this = $(this);
@@ -369,33 +388,100 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
             });
         });
 
-$('.field:first-child input').blur(function () {
-    $('.field:first-child input').each(function () {
-        $this = $(this);
-        if ( this.value != '' ) {
-          $this.addClass('focused');
-          $('.field:first-child input + label + span').css({'opacity': 1});
-        }
-        else {
-          $this.removeClass('focused');
-          $('.field:first-child input + label + span').css({'opacity': 0});
-        }
-    });
-});
+        $('.field:first-child input').blur(function () {
+            $('.field:first-child input').each(function () {
+                $this = $(this);
+                if ( this.value != '' ) {
+                  $this.addClass('focused');
+                  $('.field:first-child input + label + span').css({'opacity': 1});
+                }
+                else {
+                  $this.removeClass('focused');
+                  $('.field:first-child input + label + span').css({'opacity': 0});
+                }
+            });
+        });
 
-$('.field:nth-child(2) input').blur(function () {
-    $('.field:nth-child(2) input').each(function () {
-        $this = $(this);
-        if ( this.value != '' ) {
-          $this.addClass('focused');
-          $('.field:nth-child(2) input + label + span').css({'opacity': 1});
+        $('.field:nth-child(2) input').blur(function () {
+            $('.field:nth-child(2) input').each(function () {
+                $this = $(this);
+                if ( this.value != '' ) {
+                  $this.addClass('focused');
+                  if(validateEmail(this.value)) {
+                    $('.field:nth-child(2) input + label + span + span.err').css({'opacity': 0});
+                    $('.field:nth-child(2) input + label + span.ok').css({'opacity': 1});  
+                  } else {
+                    $('.field:nth-child(2) input + label + span.ok').css({'opacity': 0}); 
+                    $('.field:nth-child(2) input + label + span + span.err').css({'opacity': 1});
+                  }
+                  
+                }
+                else {
+                  $this.removeClass('focused');
+                  $('.field:nth-child(2) input + label + span').css({'opacity': 0});
+                  $('.field:nth-child(2) input + label + span + span').css({'opacity': 0});
+                }
+            });
+        });
+
+        var $submit = $('#submit-form');
+        $submit.click(function(e) {
+            e.preventDefault();
+            t.sendMessage();
+        });
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
         }
-        else {
-          $this.removeClass('focused');
-          $('.field:nth-child(2) input + label + span').css({'opacity': 0});
-        }
-    });
-});
+    },
+
+    sendMessage: function() {
+        var t = this;
+        var data = {
+            name: $('#name').val(),
+            email: $('#email').val(),
+            message: $('#msg').val()
+        };
+        var $result = $('#contact-result');
+        var $modal = $('#modal-contact');
+        $modal.modal({ show: false})
+
+        $.ajax({
+            method: 'POST',
+            url: './ajax/contact-form.php',
+            data: data,
+            dataType: 'json',
+            success: function(data, status, jqXHR) {
+                $result.html(data.msg);
+                if(data.status == 'ok') {
+                    $('#name').val('');
+                    $('#name').blur();
+                    $('#email').val('');
+                    $('#email').blur();
+                    $('#msg').val('');
+                    $('#msg').blur();
+                }
+                $modal.modal('show');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $result.html(errorThrown);
+                $modal.modal('show');
+            },
+            complete: function() {
+                t.delayedModalClose($modal, 8000);
+            },
+            beforeSend: function() {
+                $result.html('<p>Sending message...</p><p class="align-center"><img src="assets/img/loading.gif" alt="Loading"/></p>');
+                $modal.modal('show');
+            }
+        })
+    },
+
+    delayedModalClose: function($modal, time){
+        setTimeout(function() {
+            $modal.modal('hide');
+        }, time);
     }
 });
 
@@ -416,6 +502,13 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
             handler: function() {
                 if(!portfolio.Works.isShown()) {
                     portfolio.Works.setShown(true);
+                    
+                    var $title = $('#works h1');
+                    $title.css('opacity', 1);
+
+                    var $slideBtn = $('.flickity-prev-next-button');
+                    $slideBtn.css('opacity', 1);
+
                     var $slides = $('#works .course-item.slide');
                     $slides.each(function(i,el){
                         setTimeout(function(){
@@ -423,18 +516,6 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
                         },i*100)
                         
                     }); 
-                    
-                    /*for(var i = 0; i < slides.length; i++){
-                        setTimeout(function() {
-                            $(slides[i]).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
-                        },500); 
-                    }*/
-                    /*.each(function(i,el){
-                        setTimeout(function() {
-                            $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
-                        },500); 
-                        
-                    })*/
                 }   
             },
             offset: 100
@@ -443,9 +524,10 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
     },
 
     showcase: function() {
-        $("#showcase").flickity({
+        $("#showcase-works").flickity({
             wrapAround: true,
-            pageDots: false
+            pageDots: false,
+            initialIndex: 1
         });
     },
 
@@ -454,13 +536,23 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
         var $curtain = $('<div>').addClass('modal-loading');
         $('.modal-content', '#modal-works').append($curtain);
         
-        $.getJSON( '/assets/json/' + file, function(data) {
+        $.getJSON( './assets/json/' + file, function(data) {
             var items = [];
-            console.log(data.name);
+            //console.log(data.name);
             $('#modal-works-title').html(data.name);
             $('.work-description').html(data.description);
-            $('.work-img').html(data.img);
+            $('.work-img').attr('src', data.img);
             $('.work-link').html(data.link);
+            $('.work-link').attr('href', data.link);
+
+            //clear techs
+            $('.work-tech').html('');
+            for(var i = 0; i < data.tech.length; i++) {
+                var tech = data.tech[i];
+                var $span = $('<span>').addClass('tech-icon').addClass(tech);
+                $span.html(tech);
+                $('.work-tech').append($span);
+            }
 
             //remove the loader
             $curtain.fadeOut('fast', function() {
@@ -470,11 +562,65 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
     }
 });
 
+//extends from works
+portfolio.Lab = $.extend(true, {}, portfolio.Works, {
+    init: function() {
+        var t = this;
+        
+        //t.showcase();
+
+        var waypoint = new Waypoint({
+            element: document.getElementById('lab'),
+            handler: function() {
+                if(!portfolio.Lab.isShown()) {
+                    portfolio.Lab.setShown(true);
+                    
+                    var $title = $('#lab h1');
+                    $title.css('opacity', 1);
+
+                    var $slideBtn = $('.flickity-prev-next-button');
+                    $slideBtn.css('opacity', 1);
+
+                    var $slides = $('#lab .course-item.slide');
+                    $slides.each(function(i,el){
+                        setTimeout(function(){
+                            $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
+                        },i*100)
+                        
+                    }); 
+                }   
+            },
+            offset: 100
+        })    
+
+    },
+
+    showcase: function() {
+        $("#showcase-lab").flickity({
+            wrapAround: true,
+            pageDots: false,
+            initialIndex: 1
+        });
+    },
+});
+
 portfolio.Common = {
-   
+    wheelCount: 0,
+    isModalOpen: false,
+
     init : function() 
     {   
         this.scrollTo();
+        this.onWheelMove();
+        this.onMobileScroll();
+        
+        $modal = $('.modal').on('shown.bs.modal', function(){
+            portfolio.Common.isModalOpen = true;
+        })
+
+        $modal = $('.modal').on('hidden.bs.modal', function(){
+            portfolio.Common.isModalOpen = false;
+        })
     },
 
     scrollTo: function(){
@@ -488,6 +634,103 @@ portfolio.Common = {
             }
         });
     },
+
+    onWheelMove: function() {
+      var delay = false;
+      
+      $(document).on('mousewheel DOMMouseScroll', function(event) {
+        if(portfolio.Common.isModalOpen) return;
+
+        event.preventDefault();
+        portfolio.Common.wheelCount++;
+        
+        //console.log(portfolio.Common.wheelCount);
+        
+        if(portfolio.Common.wheelCount >= 3) {
+            if(delay) return;
+
+            delay = true;
+            setTimeout(function(){delay = false; portfolio.Common.wheelCount = 0;}, 500)
+
+            
+        
+            var wd = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+
+            
+
+            var a = document.querySelectorAll('section.portfolio-section');
+
+            if(wd < 0) {
+              for(var i = 0 ; i < a.length ; i++) {
+                var t = a[i].getClientRects()[0].top;
+                if(t >= 40) break;
+              }
+            }
+            else {
+              for(var i = a.length-1 ; i >= 0 ; i--) {
+                var t = a[i].getClientRects()[0].top;
+                if(t < -20) break;
+              }
+            }
+            //debugger;
+            var top = (a[i]) ? a[i].offsetTop : null;
+            if(top != null) {
+                $('html,body').animate({
+                  scrollTop: top
+                },1000);
+            }
+        }          
+      });
+    },
+    
+    onMobileScroll: function() {
+        var delay = false;
+        var lastY;
+        $('body').on({
+            'touchmove': function(event) { 
+                if(portfolio.Common.isModalOpen) return;
+                //debugger;
+                event.preventDefault();
+                portfolio.Common.wheelCount++;
+                
+                //console.log(portfolio.Common.wheelCount);
+                
+                if(portfolio.Common.wheelCount >= 3) {
+                    if(delay) return;
+
+                    delay = true;
+                    setTimeout(function(){delay = false; portfolio.Common.wheelCount = 0;}, 500);
+
+                    var a = document.querySelectorAll('section.portfolio-section');
+
+                    var currentY = event.originalEvent.touches[0].clientY;
+
+                    if(currentY > lastY) {
+                      for(var i = 0 ; i < a.length ; i++) {
+                        var t = a[i].getClientRects()[0].top;
+                        if(t >= 40) break;
+                      }
+                    }
+                    else {
+                      for(var i = a.length-1 ; i >= 0 ; i--) {
+                        var t = a[i].getClientRects()[0].top;
+                        if(t < -20) break;
+                      }
+                    }
+
+                    lastY = currentY;
+
+                    //debugger;
+                    var top = (a[i]) ? a[i].offsetTop : null;
+                    if(top != null) {
+                        $('html,body').animate({
+                          scrollTop: top
+                        },1000);
+                    }
+                } // Replace this with your code.
+            }
+        });
+    } 
 }
 
 portfolio.EventHandler = {
@@ -528,6 +771,7 @@ portfolio.EventHandler = {
         portfolio.About.init();
         portfolio.Skills.init();
         portfolio.Works.init();
+        portfolio.Lab.init();
         portfolio.Contact.init();
 
         ( function( $ ) {

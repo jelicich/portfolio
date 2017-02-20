@@ -25,9 +25,7 @@
     
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/flickity/1.1.0/flickity.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,300italic,300"> -->
-
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,700,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
@@ -38,31 +36,32 @@
 
     <header>
         <nav class="navbar navbar-default navbar-fixed-top" 
-        data-0="color:rgba(41,41,41,1);"
-        data--900-top="color:(255,255,255,1);"
+        data-0="color:rgba(41,41,41,1); background: rgba(255,255,255,1)"
+        data--900-top="color:(41,41,41,0.5); background: rgba(255,255,255,0.5)"
         data-anchor-target="#about">
             <div class="container-fluid">
                 
                 <div class="navbar-header">
                   
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mobile-navbar" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
 
-                  <a class="navbar-brand" href="#wrapper">Logo (?)</a>
+                  <a class="navbar-brand" href="#wrapper">{esteban.jelicich}</a>
 
                 </div>
 
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse" id="mobile-navbar">
                   
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#works">Works</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#about">about</a></li>
+                        <li><a href="#works">works</a></li>
+                        <li><a href="#lab">lab</a></li>
+                        <li><a href="#skills">skills</a></li>
+                        <li><a href="#contact">contact</a></li>
                      </ul>
 
                 </div>
@@ -76,10 +75,10 @@
         <section id="home" class="portfolio-section">
           <div class="section-inner" data-center="background-position: 50% 0px;" data-top-bottom="background-position: 50% -200px;" data-anchor-target="#home">
             <div class="container">
-                <div class="row">
+                <div class="row vcenter">
                     <div class="col-sm-12">
                         <h1>Hello!</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                        <p>My name is Esteban. I am a front-end developer from Buenos Aires.</p>
                     </div>
                 </div>
             </div>
@@ -87,25 +86,28 @@
             
         </section>
 
-        <div class="divider divider-home" id="divider">
+        <!-- <div class="divider divider-home" id="divider">
           <div class="divider-inner" data-bottom-top="background-position: 50% 100px;" data-top-bottom="background-position: 50% -100px;" data-anchor-target="#divider"></div>
-        </div>
+        </div> -->
         
         <section id="about" class="portfolio-section">
           <div class="section-inner">
             <div class="container">
                 <div class="row vcenter">
-                    <div class="col-sm-12 col-md-4 col-md-push-8">
-                      <img src="assets/img/about.jpg" class="img-about" alt="About picture">
+                    <div class="col-sm-4 col-sm-push-4 col-md-4 col-md-push-8">
+                      <img src="assets/img/about_web.jpg" class="img-about" alt="About picture">
                     </div>
                     <div class="col-sm-12 col-md-8 col-md-pull-4">
                       <div class="text-wrapper">
-                        <h1>About</h1>
-                        <p>LLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation -ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est lab</p>
-                        <p class="secondary-text">Lorem ipsum javascript php</p>
+                        <h1>About.</h1>
+                        <p>I am a front-end developer currently working for Web.com in Buenos Aires, Argentina. I like learning new technologies and use them to create functional websites.</p>
+                        <p>I also have some back-end skills and server administration knowledge</p>
+                        <p class="secondary-text">Technologies I have used: Bootstrap, SASS, jQuery, Angular, D3, Gulp, Kohana, Doctrine</p>
                         <p>
-                          <a href="#" class="btn btn-default"><i class="material-icons">description</i> CV </a>
-                          <a href="#" class="btn btn-default"><i class="material-icons">get_app</i> CV </a>
+                          <a href="assets/cv_Esteban_Jelicich.pdf" target="_blank" class="btn btn-default">
+                            <i class="material-icons">get_app</i> 
+                            <span>cv</span>
+                          </a>
                         </p>
                       </div>
                     </div>
@@ -113,96 +115,122 @@
             </div>
           </div>
         </section>
-        
-        <section id="skills" class="portfolio-section">
-          <div class="section-inner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h2>Skills</h2>
-                        <div class="chart-container" id="chart"></div>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </section>
+
+        <!-- <div class="divider divider-home" id="divider">
+          <div class="divider-inner" data-bottom-top="background-position: 50% 100px;" data-top-bottom="background-position: 50% -100px;" data-anchor-target="#divider"></div>
+        </div> -->
 
         <section id="works" class="portfolio-section">
           <div class="section-inner">
             <div class="container">
-                <div class="row">
+                <div class="row vcenter">
                     <div class="col-sm-12">
-                        <h2>Title</h2>
+                        <h1>Works.</h1>
 
                         <div class="works-content cf">
-                            <div class="courses cf" id="showcase">
+                            <div class="courses cf" id="showcase-works">
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="sarasa">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="matrix">
                                       <div class="course-thumbnail">
-                                        <img src="https://cms-assets.tutsplus.com/legacy-courses/CRS-96680.png" height="277" width="400" alt="image">
+                                        <img src="assets/img/matrix_thumb.jpg" height="277" width="400" alt="image">
                                       </div>
                                       <div class="course-info">
-                                        <div class="course-topic webdesign">Programming</div>
-                                        <h3 class="course-title">Ruby on Rails</h3>
+                                        <div class="course-topic">Front-end Development</div>
+                                        <h3 class="course-title">Matrix Website Builder</h3>
+                                        <p class="course-description">New features development and maintenance</p>
                                         <div class="course-meta">
-                                          <time class="course-date">Version</time>
-                                          <span class="course-duration">2.2</span>
+                                          <time class="course-date">2015-2017</time>
+                                          <span class="course-duration">Web.com</span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="ab">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="neo">
                                       <div class="course-thumbnail">
-                                        <img src="https://s-media-cache-ak0.pinimg.com/736x/80/51/ba/8051ba29d8450492b819ae2aace51b99.jpg" height="277" width="400" alt="">
+                                        <img src="assets/img/neo_thumb.jpg" height="277" width="400" alt="image">
                                       </div>
                                       <div class="course-info">
-                                        <div class="course-topic webdesign">Web</div>
-                                        <h3 class="course-title">HTML5 & CSS3</h3>
+                                        <div class="course-topic">Front-end Development</div>
+                                        <h3 class="course-title">Neo Website Builder</h3>
+                                        <p class="course-description">Templates coding using HTML and CSS</p>
                                         <div class="course-meta">
-                                          <time class="course-date">Version</time>
-                                          <span class="course-duration">3</span>
-                                        </div>
-                                      </div>
-                                      <span class="course-caption ion ion-closed-captioning"></span>
-                                    </div>
-                                  </div>
-
-                                  <div class="course-item slide">
-                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="si">
-                                      <div class="course-thumbnail">
-                                        <img src="https://cms-assets.tutsplus.com/uploads/users/48/posts/22337/preview_image/Linux-setup-for-developers.png" height="277" width="400" alt="Linux Image">
-                                      </div>
-                                      <div class="course-info">
-                                        <div class="course-topic computer">OS</div>
-                                        <h3 class="course-title">Linux</h3>
-                                        <div class="course-meta">
-                                          <time class="course-date">Version</time>
-                                          <span class="course-duration">14.10</span>
+                                          <time class="course-date">2014-2015</time>
+                                          <span class="course-duration">Web.com</span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
                                   <div class="course-item slide">
-                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="no">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="travellab">
                                       <div class="course-thumbnail">
-                                        <img src="http://a3ab771892fd198a96736e50.javacodegeeks.netdna-cdn.com/wp-content/uploads/2014/03/Atom-Text-Editor-By-GitHub.png" height="277" width="400" alt="TextEdit Image">
+                                        <img src="assets/img/travellab_thumb.jpg" height="277" width="400" alt="image">
                                       </div>
                                       <div class="course-info">
-                                        <div class="course-topic code">Text Editor</div>
-                                        <h3 class="course-title">Atom</h3>
+                                        <div class="course-topic">Front-end Development</div>
+                                        <h3 class="course-title">Travellab Solutions</h3>
+                                        <p class="course-description">Website development using HTML, CSS and JS</p>
                                         <div class="course-meta">
-                                          <time class="course-date">Version</time>
-                                          <span class="course-duration">1.0.11</span>
+                                          <time class="course-date">2017</time>
+                                          <span class="course-duration">Freelance</span>
                                         </div>
                                       </div>
-                                      <span class="course-caption ion ion-closed-captioning"></span>
                                     </div>
                                   </div>
 
+                                  <div class="course-item slide">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="patagonia">
+                                      <div class="course-thumbnail">
+                                        <img src="assets/img/patagonia_thumb.jpg" height="277" width="400" alt="image">
+                                      </div>
+                                      <div class="course-info">
+                                        <div class="course-topic">Full-stack Development / Design</div>
+                                        <h3 class="course-title">Patagonia Distribution</h3>
+                                        <p class="course-description">Design and development using HTML, CSS, JS, PHP, MySQL</p>
+                                        <div class="course-meta">
+                                          <time class="course-date">2014</time>
+                                          <span class="course-duration">Solution Box Group</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="course-item slide">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="sbox">
+                                      <div class="course-thumbnail">
+                                        <img src="assets/img/sbox_thumb.jpg" height="277" width="400" alt="image">
+                                      </div>
+                                      <div class="course-info">
+                                        <div class="course-topic">Front-end Development / Design</div>
+                                        <h3 class="course-title">Solution Box</h3>
+                                        <p class="course-description">Design and development using HTML, CSS and JS</p>
+                                        <div class="course-meta">
+                                          <time class="course-date">2014</time>
+                                          <span class="course-duration">Solution Box Group</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="course-item slide">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="kosim">
+                                      <div class="course-thumbnail">
+                                        <img src="assets/img/kosim_thumb.jpg" height="277" width="400" alt="image">
+                                      </div>
+                                      <div class="course-info">
+                                        <div class="course-topic">Front-end Development</div>
+                                        <h3 class="course-title">Grupo Kosim</h3>
+                                        <p class="course-description">Website development using HTML, CSS and JS</p>
+                                        <div class="course-meta">
+                                          <time class="course-date">2016</time>
+                                          <span class="course-duration">Freelance</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>  
                             </div>
                         </div>
 
@@ -212,34 +240,139 @@
           </div>
         </section>
 
+        <!-- <div class="divider divider-home" id="divider">
+          <div class="divider-inner" data-bottom-top="background-position: 50% 100px;" data-top-bottom="background-position: 50% -100px;" data-anchor-target="#divider"></div>
+        </div> -->
+
+        <section id="lab" class="portfolio-section">
+          <div class="section-inner">
+            <div class="container">
+                <div class="row vcenter">
+                    <div class="col-sm-12">
+                        <h1>Lab.</h1>
+                        <p>[under construction]</p>
+
+                        <div class="works-content cf">
+                            <div class="courses cf" id="showcase-lab">
+
+                                  <div class="course-item slide">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="inkedin">
+                                      <div class="course-thumbnail">
+                                        <img src="assets/img/inkedin_thumb.jpg" height="277" width="400" alt="image">
+                                      </div>
+                                      <div class="course-info">
+                                        <div class="course-topic">Full-stack Development</div>
+                                        <h3 class="course-title">Tattoo site</h3>
+                                        <p class="course-description">Design and development</p>
+                                        <div class="course-meta">
+                                          <time class="course-date">2015</time>
+                                          <span class="course-duration">Freelance</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  
+                                  <!--
+                                  <div class="course-item slide">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="sbox">
+                                      <div class="course-thumbnail">
+                                        <img src="assets/img/sbox_thumb.jpg" height="277" width="400" alt="image">
+                                      </div>
+                                      <div class="course-info">
+                                        <div class="course-topic">Front-end Development / Design</div>
+                                        <h3 class="course-title">Solution Box</h3>
+                                        <p class="course-description">Design and development using HTML, CSS and JS</p>
+                                        <div class="course-meta">
+                                          <time class="course-date">2014</time>
+                                          <span class="course-duration">Solution Box Group</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="course-item slide">
+                                    <div class="course-summary card" data-toggle="modal" data-target="#modal-works" data-content="kosim">
+                                      <div class="course-thumbnail">
+                                        <img src="assets/img/kosim_thumb.jpg" height="277" width="400" alt="image">
+                                      </div>
+                                      <div class="course-info">
+                                        <div class="course-topic">Front-end Development</div>
+                                        <h3 class="course-title">Grupo Kosim</h3>
+                                        <p class="course-description">Website development using HTML, CSS and JS</p>
+                                        <div class="course-meta">
+                                          <time class="course-date">2016</time>
+                                          <span class="course-duration">Freelance</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div> 
+                                  --> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- <div class="divider divider-home" id="divider">
+          <div class="divider-inner" data-bottom-top="background-position: 50% 100px;" data-top-bottom="background-position: 50% -100px;" data-anchor-target="#divider"></div>
+        </div> -->
+
+
+        <section id="skills" class="portfolio-section">
+          <div class="section-inner">
+            <div class="container">
+                <div class="row vcenter">
+                    <div class="col-sm-12">
+                        <h1>Skills.</h1>
+                        <div class="chart-container" id="chart"></div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- <div class="divider divider-home" id="divider">
+          <div class="divider-inner" data-bottom-top="background-position: 50% 100px;" data-top-bottom="background-position: 50% -100px;" data-anchor-target="#divider"></div>
+        </div> -->
+
         <section id="contact" class="portfolio-section">
           <div class="section-inner">
             <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <h2>Contact</h2>
+                <div class="row vcenter">
+                    <div class="col-sm-12">
+                        <h1>Contact.</h1>
+                        <div class="row">
+                          <div class="col-sm-12 ">
+                            <form>
+                                <div class="field name-box">
+                                    <input type="text" id="name" placeholder="Who Are You?"/>
+                                    <label for="name">Name</label>
+                                    <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
+                                </div>
+
+                                <div class="field email-box">
+                                    <input type="text" id="email" placeholder="name@email.com"/>
+                                    <label for="email">Email</label>
+                                    <span class="ss-icon ok"><i class="material-icons">&#xE86C;</i></span>
+                                    <span class="ss-icon err"><i class="material-icons">&#xE5C9;</i></span>
+                                </div>
+
+                                <div class="field msg-box">
+                                    <textarea id="msg" rows="3" placeholder="Your message goes here..."></textarea>
+                                    <label for="msg">Msg</label>
+                                    <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
+                                </div>
+
+                                <input class="button" type="submit" id="submit-form" value="Send" />
+                          </form>
+                          </div>  
+                        </div>
                         
-                        <form>
-                            <div class="field name-box">
-                                <input type="text" id="name" placeholder="Who Are You?"/>
-                                <label for="name">Name</label>
-                                <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
-                            </div>
-
-                            <div class="field email-box">
-                                <input type="text" id="email" placeholder="name@email.com"/>
-                                <label for="email">Email</label>
-                                <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
-                            </div>
-
-                            <div class="field msg-box">
-                                <textarea id="msg" rows="4" placeholder="Your message goes here..."></textarea>
-                                <label for="msg">Msg</label>
-                                <span class="ss-icon"><i class="material-icons">&#xE86C;</i></span>
-                            </div>
-
-                            <input class="button" type="submit" value="Send" />
-                      </form>
+                        
 
                     </div>
                 </div>
@@ -250,36 +383,96 @@
     </main>
 
     <footer>
-        
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <p class="align-center">
+                <a href="https://github.com/jelicich" target="_blank"><img src="assets/img/github-icon.png" alt="Github"></a>
+                <a href="https://www.linkedin.com/in/esteban-jelicich-84279b39/" target="_blank"><img src="assets/img/linkedin-icon.png" alt="Linkedin"></a>
+              </p>
+              <p class="align-center">This portfolio was created along with @<a href="https://github.com/julian69" target="_blank">julian69</a>, feel free to <a href="https://github.com/jelicich/portfolio">use it</a>.</p>
+            </div>
+          </div>
+        </div>
     </footer>
 
-    <script type="text/javascript" src="./assets/js/main.js"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-works" tabindex="-1" role="dialog" aria-labelledby="modal-works-title">
+      <div class="modal-dialog" role="document">
+       
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="modal-title" id="modal-works-title"></h4>      
+                </div>
+              </div>  
+            </div>
+            
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              
+              <div class="row">
+                <div class="col-sm-12 align-center">
+                  <img class="work-img" alt=""/>
+                </div>
+              </div>
 
-</body>
+              <div class="row">
+                <div class="col-md-4 col-sm-12 col-md-push-8">
+                  <div class="work-tech"></div>
+                </div>
+                <div class="col-md-8 col-sm-12 col-md-pull-4">
+                  <div class="work-description"></div>
+                </div>
+              </div>
 
+              <div class="row">
+                <div class="col-sm-12">
+                  <a href="#" class="work-link"></a>
+                </div>
+              </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modal-works" tabindex="-1" role="dialog" aria-labelledby="modal-works-title">
-  <div class="modal-dialog" role="document">
-   
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="modal-works-title"></h4>
-      </div>
-      <div class="modal-body">
-        <div class="work-description"></div>
-        <div class="work-img"></div>
-        <div class="work-link"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+            </div>   
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+          
+        </div>
+
       </div>
     </div>
 
-  </div>
-</div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-contact" tabindex="-1" role="dialog" aria-labelledby="modal-works-title">
+      <div class="modal-dialog" role="document">
+       
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modal-contact-title">Contact me!</h4>
+          </div>
+          <div class="modal-body">
+            <div id="contact-result"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+<script type="text/javascript" src="./assets/js/main.js"></script>
+</body>
+
+
+
 
 
 </html>

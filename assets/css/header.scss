@@ -1,26 +1,40 @@
 header{
+	.navbar {
+		background: transparent;
+		background-color: transparent;
+		border-color: transparent;
+		transition: all 0.5s ease-out;
+	}
+
+	.navbar:hover{
+		color:(41,41,41,1) !important; 
+		background: rgba(255,255,255,1) !important;
+	}
+
+	.navbar-nav li a,
+	.navbar-brand{  
+		color: inherit !important;
+	}
+
+	.navbar-toggle{
+		border: 1px solid #292929 !important;
+	}
+
+	.navbar-default .navbar-toggle:focus, 
+	.navbar-default .navbar-toggle:hover{
+		background-color: transparent !important;
+	}
+
+	.icon-bar{
+	 	background-color: #292929 !important;
+	}
+
+	#mobile-navbar{
+		@include mobile {
+			border-bottom: 1px solid #292929;	
+		}
+		
+	}
 }
 
-.navbar {
-	background: transparent;
-	background-color: transparent;
-	border-color: transparent;
-}
-
-.navbar-nav li a,
-.navbar-brand{  
-	color: inherit !important;
-}
-
-.navbar-toggle{
-	border: none;
-}
-
-.navbar-default .navbar-toggle:focus, 
-.navbar-default .navbar-toggle:hover{
-	background-color: transparent !important;
-}
-
-.icon-bar{
- 	background-color: #fff !important;
-}
+	

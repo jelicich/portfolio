@@ -1,38 +1,28 @@
 #home{
-	background: #009688;
 	color: #292929;
 
 	.section-inner{
-		background-position: center center;
-	    background-repeat: repeat;
-	    background-attachment: fixed;
-	    //background-size: cover;
-		background-image:url('../img/greyzz.png');
-		display: flex;
-
-		.container{
-			margin: auto;
-		}
 
 		h1{
-			text-align: center;
 			font-size: 70px;
 			margin-top: 0;
 			opacity: 0;
-			// transform: translate(0, -100%);
-			// transition: opacity 1s ease-in, transform 1s ease-in;
+			font-weight: bold;
 			transition: opacity 1s ease-in;
-			//animation: bounce-from-top 1s ease-out;
+			
+			@include mobile{
+				font-size: 40px;
+			}
 		}
 
 		p{
-			text-align: center;
 			font-size: 50px;
 			opacity: 0;
-			// transform: translate(0, 100%);
-			// transition: opacity 1s ease-in, transform 1s ease-in;
 			transition: opacity 1s ease-in;
-			//animation: bounce-from-bottom 1s ease-out;
+			
+			@include mobile{
+				font-size: 30px;
+			}
 		}
 	}
 }

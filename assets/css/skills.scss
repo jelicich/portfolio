@@ -1,6 +1,7 @@
 #skills{
-	background: #FF5252;
-
+	opacity: 0;
+	transition: opacity 1s ease-out;
+	
 	.chart-container{
 		width: 100%;
 		height: calc(100vh*0.7);
@@ -8,10 +9,22 @@
 		.click-circle,
 		.skills-button-text{
 			cursor: pointer;
-			text-transform: uppercase
+		}
+		.skills-button-text{
+			fill: #fff;
+		}
+		.click-circle{
+			opacity: 0.8;
+			transition: all 0.5s ease-out;
 		}
 		.click-circle.highlighted {
-			fill: rgba(201,201,201, 0.80);
+			opacity: 1;
+		}
+
+		.skill-label{
+			@include mobile{
+				font-size: 12px;
+			}
 		}
 	}
 
