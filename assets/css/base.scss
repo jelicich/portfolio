@@ -20,11 +20,17 @@ $desktopWidth: 1024px;
         @content;
     }
 }
+body,html{
+	overflow: hidden;
+}
 
 body{
 	color: #292929;
 	font-family: 'Roboto Mono', monospace;
-	overflow: hidden;
+	background-position: center center;
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-image:url('../img/subtle_dots.png');
 	
 	@include tablet{
 		//overflow: visible;
@@ -46,10 +52,6 @@ figure a {
 
 section.portfolio-section{
 	height: 100vh;
-	background-position: center center;
-	background-repeat: repeat;
-	background-attachment: fixed;
-	background-image:url('../img/subtle_dots.png');
 
 	.section-inner{
 		padding-top: 50px;

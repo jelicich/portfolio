@@ -1,8 +1,14 @@
 @charset "UTF-8";
+body, html {
+  overflow: hidden; }
+
 body {
   color: #292929;
   font-family: 'Roboto Mono', monospace;
-  overflow: hidden; }
+  background-position: center center;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-image: url("../img/subtle_dots.png"); }
 
 img {
   max-width: 100%;
@@ -16,11 +22,7 @@ figure a {
   display: block; }
 
 section.portfolio-section {
-  height: 100vh;
-  background-position: center center;
-  background-repeat: repeat;
-  background-attachment: fixed;
-  background-image: url("../img/subtle_dots.png"); }
+  height: 100vh; }
   section.portfolio-section .section-inner {
     padding-top: 50px;
     height: 100%;
@@ -62,8 +64,8 @@ h1 {
   text-align: center; }
 
 header .navbar {
-  background: transparent;
-  background-color: transparent;
+  background: #fff;
+  background-color: #fff;
   border-color: transparent;
   transition: all 0.5s ease-out; }
 header .navbar:hover {
@@ -104,11 +106,15 @@ header .icon-bar {
 
 #about .section-inner .container {
   height: 100%; }
+  @media (max-width: 560px) {
+    #about .section-inner .container h1 {
+      margin-top: 5px; } }
   #about .section-inner .container p {
     font-size: 22px; }
     @media (max-width: 560px) {
       #about .section-inner .container p {
-        font-size: 14px; } }
+        font-size: 12px;
+        line-height: 1; } }
   #about .section-inner .container p.secondary-text {
     font-size: 14px;
     border-top: 1px dotted #292929;
@@ -116,7 +122,8 @@ header .icon-bar {
     margin-bottom: 15px; }
     @media (max-width: 560px) {
       #about .section-inner .container p.secondary-text {
-        font-size: 12px; } }
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.3); } }
   #about .section-inner .container img.img-about {
     border-radius: 50%;
     transition: opacity 0.5s ease-in;
@@ -376,6 +383,9 @@ header .icon-bar {
       width: 100%;
       position: relative;
       margin-bottom: 15px; }
+      @media (max-width: 560px) {
+        #contact form .field {
+          margin-bottom: 10px; } }
       #contact form .field label {
         color: #d3d3d3;
         position: absolute;
@@ -392,6 +402,9 @@ header .icon-bar {
         -o-transition: all 333ms ease-in-out;
         -ms-transition: all 333ms ease-in-out;
         transition: all 333ms ease-in-out; }
+        @media (max-width: 560px) {
+          #contact form .field label {
+            padding: 10px 15px; } }
         #contact form .field label + span,
         #contact form .field label + span + span {
           opacity: 0;
@@ -419,6 +432,7 @@ header .icon-bar {
         @media (max-width: 560px) {
           #contact form .field input[type="text"],
           #contact form .field textarea {
+            padding: 10px 0;
             padding-left: 30%; } }
         #contact form .field input[type="text"]#msg,
         #contact form .field textarea#msg {
@@ -430,6 +444,10 @@ header .icon-bar {
           -o-transition: all 333ms ease-in-out;
           -ms-transition: all 333ms ease-in-out;
           transition: all 333ms ease-in-out; }
+          @media (max-width: 560px) {
+            #contact form .field input[type="text"]#msg,
+            #contact form .field textarea#msg {
+              height: 40px; } }
         #contact form .field input[type="text"]:focus, #contact form .field input[type="text"].focused,
         #contact form .field textarea:focus,
         #contact form .field textarea.focused {
@@ -438,6 +456,11 @@ header .icon-bar {
           #contact form .field textarea:focus#msg,
           #contact form .field textarea.focused#msg {
             padding-bottom: 100px; }
+            @media (max-width: 560px) {
+              #contact form .field input[type="text"]:focus#msg, #contact form .field input[type="text"].focused#msg,
+              #contact form .field textarea:focus#msg,
+              #contact form .field textarea.focused#msg {
+                padding-bottom: 80px; } }
           #contact form .field input[type="text"]:focus + label, #contact form .field input[type="text"].focused + label,
           #contact form .field textarea:focus + label,
           #contact form .field textarea.focused + label {
