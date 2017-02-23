@@ -113,3 +113,15 @@ h1{
 	text-align: center;
 }
 
+#loading-screen{
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 2000;
+	background: #fff;
+	display: flex;
+
+	p{
+		margin: auto;
+	}
+}

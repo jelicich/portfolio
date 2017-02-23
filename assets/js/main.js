@@ -555,9 +555,12 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
             }
 
             //remove the loader
-            $curtain.fadeOut('fast', function() {
-                $curtain.remove();
-            });
+            $('.work-img').on('load', function() {
+               $curtain.fadeOut('fast', function() {
+                    $curtain.remove();
+                }); 
+            })
+                
         });
     }
 });
@@ -613,9 +616,10 @@ portfolio.Common = {
     init : function() 
     {   
         var t = this;
-        this.scrollTo();
+        t.scrollTo();
+        t.preload();
 
-        if(this.isMobile()) {
+        if(t.isMobile()) {
             t.onMobileSwipe();
             t.addMultipleEventListener(window, 'touchmove touchcancel', function(event) {
                 if(!portfolio.Common.isModalOpen) { 
@@ -630,8 +634,11 @@ portfolio.Common = {
                     scrollTop: top
                 }, 200);
             });
+
+            //close navbar when clicking on a link
+            t.setNavbarLinks();
         } else {
-            this.onWheelMove();
+            t.onWheelMove();
         }
 
         $modal = $('.modal').on('shown.bs.modal', function(e){
@@ -674,6 +681,15 @@ portfolio.Common = {
                 }, 1000);
             }
         });
+    },
+
+    setNavbarLinks: function() {
+        $('.navbar-collapse a').click(function(){
+            $('.navbar-collapse').collapse('hide');
+        })
+        $('.navbar-brand').click(function(){
+            $('.navbar-collapse').collapse('hide');  
+        })
     },
 
     onWheelMove: function() {
@@ -766,8 +782,28 @@ portfolio.Common = {
                 
         });
     },
-    
-    
+
+    preload: function() {
+        $dotsContainer = $('#loading-screen span');
+        portfolio.Common.dotsInterval = setInterval(function(){
+            if($dotsContainer.html() == '...') {
+                $dotsContainer.html('')
+            }else{
+                var html = $dotsContainer.html();
+                $dotsContainer.html(html + '.');    
+            }
+            
+        }, 500);
+    },
+
+    removeLoader: function() {
+        clearInterval(portfolio.Common.dotsInterval);
+        var $curtain = $('#loading-screen');
+        $curtain.fadeOut('fast', function() {
+            $curtain.remove();
+        });
+    }
+
 }
 
 portfolio.EventHandler = {
@@ -802,8 +838,12 @@ portfolio.EventHandler = {
 // portfolio.EventHandler.register(evt, callback);
 
 {
-    $(window).on('load',function() {
+    $(document).ready(function(){
         portfolio.Common.init();
+    });
+
+    $(window).on('load',function() {
+        portfolio.Common.removeLoader();
         portfolio.Home.init();
         portfolio.About.init();
         portfolio.Skills.init();

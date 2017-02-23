@@ -151,6 +151,10 @@ $field-color:#E8E9EA;
 				        width:$hover-label-width;
 				        background:$blue;
 				        color:white;
+
+				        @include mobile{
+				        	width: 100%;
+				        }
 			      }
 		    }
 	    }

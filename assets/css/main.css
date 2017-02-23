@@ -63,6 +63,16 @@ h1 {
 .align-center {
   text-align: center; }
 
+#loading-screen {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 2000;
+  background: #fff;
+  display: flex; }
+  #loading-screen p {
+    margin: auto; }
+
 header .navbar {
   background: #fff;
   background-color: #fff;
@@ -478,6 +488,9 @@ header .icon-bar {
         width: 18%;
         background: #313A3D;
         color: white; }
+        @media (max-width: 560px) {
+          #contact form .field:hover label {
+            width: 100%; } }
     #contact form input[type="submit"] {
       background: #FF5252;
       color: white;
