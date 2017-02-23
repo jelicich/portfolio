@@ -506,8 +506,8 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
                     var $title = $('#works h1');
                     $title.css('opacity', 1);
 
-                    var $slideBtn = $('.flickity-prev-next-button');
-                    $slideBtn.css('opacity', 1);
+                    var $slideBtn = $('#works .flickity-prev-next-button');
+                    $slideBtn.css('opacity', 0.8);
 
                     var $slides = $('#works .course-item.slide');
                     $slides.each(function(i,el){
@@ -581,7 +581,7 @@ portfolio.Lab = $.extend(true, {}, portfolio.Works, {
                     var $title = $('#lab h1');
                     $title.css('opacity', 1);
 
-                    var $slideBtn = $('.flickity-prev-next-button');
+                    var $slideBtn = $('#lab .flickity-prev-next-button');
                     $slideBtn.css('opacity', 1);
 
                     var $slides = $('#lab .course-item.slide');
@@ -644,11 +644,13 @@ portfolio.Common = {
         $modal = $('.modal').on('shown.bs.modal', function(e){
             portfolio.Common.isModalOpen = true;
             portfolio.Common.modalOpen = this;
+            portfolio.Common.fixBg();
         })
 
         $modal = $('.modal').on('hidden.bs.modal', function(e){
             portfolio.Common.isModalOpen = false;
             portfolio.Common.modalOpen = null;
+            portfolio.Common.releaseBg();
         })
     },
 
@@ -802,6 +804,18 @@ portfolio.Common = {
         $curtain.fadeOut('fast', function() {
             $curtain.remove();
         });
+    },
+
+    //hack for ios to prevent scrolling body when modal is open,
+    fixBg: function() {
+        $('body').css('overflow','hidden');
+        $('body').css('position','fixed');
+    },
+
+    //hack for ios to prevent scrolling body when modal is open,
+    releaseBg: function() {
+        $('body').css('overflow','');
+        $('body').css('position','');
     }
 
 }
