@@ -1,11 +1,22 @@
+/**
+ * Web dev portfolio
+ * 
+ * @author Esteban Jelicich - Julian Peña
+ */
+
 var portfolio = {};
+
+
+/**
+ * Section Base 
+ */
 
 portfolio.Section = {
     shown: false,
-    sectionId: null,
+    sectionId: null, //html element id
 
     init: function() {},
-    //TODO check if needed
+    
     setShown: function(shown) {
         this.shown = shown;
     },
@@ -14,7 +25,7 @@ portfolio.Section = {
         return this.shown;
     },
 
-    onShow: function(callback, offset) {
+    onShow: function(callbacks, offset) {
         offset = offset || 300;
         var t = this;
         var waypoint = new Waypoint({
@@ -22,7 +33,9 @@ portfolio.Section = {
             handler: function() {
                 var classObj = t.getClass();
                 if(!classObj.isShown()) {
-                    callback.apply(classObj);
+                    for(var i = 0; i < callbacks.length; i++) {
+                        callbacks[i].apply(classObj);    
+                    }
                     classObj.setShown(true);
                 }
             },
@@ -38,30 +51,78 @@ portfolio.Section = {
         }
     },
 
-    effects: function() {}
+    sendStatistics: function() {
+        var monitoringService = portfolio.service.MonitoringService;
+        monitoringService.notify({
+          category : monitoringService.eventCategory.section, 
+          action : monitoringService.action.sectionLoaded,
+          label : this.sectionId
+        });
+    },
+
+    effects: function() {},
 }
 
+
+/**
+ * Section Home
+ */
+
 portfolio.Home = $.extend(true, {}, portfolio.Section, {
+    sectionId: 'home',
+
     init: function() {
         //do things for section
         $('#home h1').css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});
         $('#home p').css({opacity: '1', animation: 'bounce-from-bottom 0.5s ease-out'});
+
+        this.sendStatistics();
     }
 });
+
+
+/**
+ * Section About
+ */
 
 portfolio.About = $.extend(true, {}, portfolio.Section, {
     sectionId: 'about',
 
     init: function() {      
-        this.onShow(this.effects, 300);       
+        this.onShow([this.effects, this.sendStatistics], 300);
+
+        //bind event stats
+        var $btnCv = $('#download-cv-btn');
+        $btnCv.click(function() {
+            var monitoringService = portfolio.service.MonitoringService;
+            monitoringService.notify({
+                category : monitoringService.eventCategory.about, 
+                action : monitoringService.action.downloadedCv
+            });
+        });
+
     },
 
     effects: function() {
         $('#about .img-about').css({opacity: '1', animation: 'bounce-from-right 0.5s ease-out'});
         $('#about .text-wrapper').css({opacity: '1'});
+    },
+
+    sendStatistics: function() {
+        var monitoringService = portfolio.service.MonitoringService;
+        monitoringService.notify({
+          category : monitoringService.eventCategory.section, 
+          action : monitoringService.action.sectionLoaded,
+          label : this.sectionId
+        });
     }
 
 });
+
+
+/**
+ * Section Skills
+ */
 
 portfolio.Skills = $.extend(true, {}, portfolio.Section, {
     sectionId: 'skills',
@@ -152,7 +213,17 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
         //starts with empty data to animate from 0 with effects function
         this.startChart(initData);
 
-        t.onShow(t.effects, 300);
+        t.onShow([t.effects, t.sendStatistics], 300);
+        
+        var $btnSkills = $('text.skills-button-text');
+        $btnSkills.click(function() {
+            var monitoringService = portfolio.service.MonitoringService;
+            monitoringService.notify({
+                category : monitoringService.eventCategory.skills, 
+                action : monitoringService.action.switchedSkills
+            });
+        });
+
     },
 
     effects: function() {
@@ -375,6 +446,11 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
     
 });
 
+
+/**
+ * Section Contact
+ */
+
 portfolio.Contact = $.extend(true, {}, portfolio.Section, {
     sectionId: 'contact',
     timeOutModal: null,
@@ -382,7 +458,7 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
 
     init: function() {
         var t = this;
-        t.onShow(t.effects, 100);
+        t.onShow([t.effects, t.sendStatistics], 100);
 
         $('#modal-contact').on('hidden.bs.modal', function() {
             clearTimeout(portfolio.Contact.timeOutModal);
@@ -423,7 +499,7 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
                 $this = $(this);
                 if ( this.value != '' ) {
                   $this.addClass('focused');
-                  if(validateEmail(this.value)) {
+                  if(portfolio.Common.validateEmail(this.value)) {
                     $('.field:nth-child(2) input + label + span + span.err').css({'opacity': 0});
                     $('.field:nth-child(2) input + label + span.ok').css({'opacity': 1});  
                   } else {
@@ -444,12 +520,13 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
         $submit.click(function(e) {
             e.preventDefault();
             t.sendMessage();
-        });
 
-        function validateEmail(email) {
-            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email);
-        }
+            var monitoringService = portfolio.service.MonitoringService;
+            monitoringService.notify({
+                category : monitoringService.eventCategory.contact, 
+                action : monitoringService.action.sentMessage
+            });
+        });
     },
 
     effects: function() {
@@ -521,18 +598,43 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
 });
 
 
+/**
+ * Section Works 
+ */
+
 portfolio.Works = $.extend(true, {}, portfolio.Section, {
     sectionId: 'works',
 
     init: function() {
         var t = this;
-        t.onShow(t.effects, 100)
+        t.onShow([t.effects, t.sendStatistics], 100)
         t.showcase();
 
-        $('.card').click(function(){
+        var $workCard = $('#works .card');
+        $workCard.click(function(){
             var content = $(this).data('content');
-            t.loadContent(content);
-        });  
+            t.loadContent.apply(t,[content]);
+
+            var monitoringService = portfolio.service.MonitoringService;
+            monitoringService.notify({
+                category : monitoringService.eventCategory.works, 
+                action : monitoringService.action.launchedWork,
+                label : $(this).find('.course-title').html()
+            });
+        });
+
+        var $workLink = $('.work-link');
+        $workLink.click(function() {
+            debugger;
+            var monitoringService = portfolio.service.MonitoringService;
+            var section = $('#modal-works').data('displaying');
+            monitoringService.notify({
+                category : monitoringService.eventCategory[section], 
+                action : monitoringService.action.clickedOnWorkLink,
+                label : $('#modal-works-title').html()
+            });
+
+        });
 
     },
 
@@ -563,7 +665,9 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
     loadContent: function(content) {
         var file = content+'.json';
         var $curtain = $('<div>').addClass('modal-loading');
-        $('.modal-content', '#modal-works').append($curtain);
+        var $modal = $('#modal-works');
+        $modal.attr('data-displaying', this.sectionId)
+        $('.modal-content', $modal).append($curtain);
 
         var prevSrc = $('.work-img').attr('src');
         
@@ -602,15 +706,43 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
     }
 });
 
+
+/**
+ * Section Lab
+ */
+
 //extends from works
 portfolio.Lab = $.extend(true, {}, portfolio.Works, {
     sectionId: 'lab',
 
     init: function() {
         var t = this;
-        t.onShow(t.effects, 100);
+        t.onShow([t.effects], 100);
         //t.showcase(); 
 
+        var $labCard = $('#lab .card');
+        $labCard.click(function(){
+            var content = $(this).data('content');
+            t.loadContent(content);
+
+            var monitoringService = portfolio.service.MonitoringService;
+            monitoringService.notify({
+                category : monitoringService.eventCategory.lab, 
+                action : monitoringService.action.launchedLab,
+                label : $(this).find('.course-title').html()
+            });
+        });
+
+        var $labLink = $('.work-link');
+        $labLink.click(function() {
+            var monitoringService = portfolio.service.MonitoringService;
+            var section = $('#modal-works').data('displaying');
+            monitoringService.notify({
+                category : monitoringService.eventCategory[section], 
+                action : monitoringService.action.clickedOnLabLink,
+                label : $(this).find('#modal-works-title').html()
+            });
+        });
     },
 
     effects: function() {
@@ -637,6 +769,11 @@ portfolio.Lab = $.extend(true, {}, portfolio.Works, {
         });
     },
 });
+
+
+/**
+ * Site Commons
+ */
 
 portfolio.Common = {
     wheelCount: 0,
@@ -687,13 +824,22 @@ portfolio.Common = {
         $modal.on('shown.bs.modal', function(e){
             portfolio.Common.isModalOpen = true;
             portfolio.Common.modalOpen = this;
+
+            portfolio.Common.safariFixBg();
         })
 
         $modal.on('hidden.bs.modal', function(e){
             portfolio.Common.isModalOpen = false;
             portfolio.Common.modalOpen = null;
-            portfolio.Common.releaseBg();
+            
+            portfolio.Common.safariReleaseBg();
         })
+
+        //init google analytics
+        var googleHandler = portfolio.service.MonitoringHandler.Google;
+        googleHandler.init();
+
+        portfolio.service.MonitoringService.setServiceHandler(googleHandler);
     },
 
     addMultipleEventListener: function(element, eventNames, listener) {
@@ -713,6 +859,10 @@ portfolio.Common = {
         var check = false;
         (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
         return check;
+    },
+
+    isSafariMobile: function() {
+        return !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
     },
 
     scrollTo: function(){
@@ -849,26 +999,123 @@ portfolio.Common = {
     },
 
     //hack for ios to prevent scrolling body when modal is open,
-    fixBg: function() {
-        portfolio.Common.scrollPos = $('body').scrollTop();
-        $('body').css({
-            overflow: 'hidden',
-            position: 'fixed',
-            top : -portfolio.Common.scrollPos
-        });
+    safariFixBg: function() {
+        if(portfolio.Common.isSafariMobile()) {
+            $('body').css('overflow','hidden');
+            $('body').css('position','fixed');
+        }
     },
 
     //hack for ios to prevent scrolling body when modal is open,
-    releaseBg: function() {
-        $('body').css({
-            overflow: '',
-            position: '',
-            top: ''
-        }).scrollTop(portfolio.Common.scrollPos);
+    safariReleaseBg: function() {
+        if(portfolio.Common.isSafariMobile()) {
+            $('body').css('overflow','');
+            $('body').css('position','');
+        }
+    },
+
+    validateEmail: function(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
 
 }
 
+
+/**
+ * Services
+ */
+
+portfolio.service = {};
+
+portfolio.service.MonitoringService = {
+
+  service : null,
+  enabled : true,
+  
+  eventCategory : {
+    section : 'section',
+    home    : 'home',
+    about   : 'about',
+    works   : 'works',
+    lab     : 'lab',
+    contact : 'contact',
+    footer  : 'Footer'
+  },
+
+  action : {
+    sectionLoaded       : 'Section Loaded',
+    downloadedCv        : 'Downloaded CV',
+    launchedWork        : 'Launched Work',
+    clickedOnWorkLink   : 'Clicked on Work link',
+    launchedLab         : 'Launched Lab',
+    clickedOnLabLink    : 'Clicked on Lab link',
+    switchedSkills      : 'Switched skills',
+    sentMessage         : 'Sent Message'
+  },
+
+  setServiceHandler : function(serviceHandler) {
+    this.service = serviceHandler;
+  },
+
+  enable : function() {
+    this.enabled = true;
+  },
+
+  disable : function() {
+    this.enabled = false;
+  },
+
+  isEnabled : function() {
+    return this.enabled;
+  },
+
+  notify : function(options) {
+    if (this.isEnabled() && this.service) {
+      this.service.notify(options);
+    }
+  }
+};
+
+// Abstract
+portfolio.service.MonitoringHandler = {
+  init : function() {
+    // initialization
+  },
+
+  notify : function(category, action, label, options) {
+    // Notify 3rd party service or other
+  }
+}
+
+//we can have different handlers in order to switch to other analytics provider
+portfolio.service.MonitoringHandler.Google = $.extend(true, {}, portfolio.service.MonitoringHandler, {
+  
+  init : function() {
+    
+    //var trackingId = 'UA-92521692-1';
+    var trackingId = '';
+
+    //GA
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', trackingId, 'auto');
+    
+    ga('send', 'pageview');
+    
+  },
+
+  notify : function(options) {
+    console.log('Notify google opts: ',options);
+    ga('send', 'event', options.category, options.action, options.label, options.options);
+  }
+})
+
+
+/*
 portfolio.EventHandler = {
     events: {
         SECTION_SHOWN: 'sectionShown',
@@ -884,6 +1131,7 @@ portfolio.EventHandler = {
         $(document).trigger(name, data);
     }
 }
+*/
 //usage
 // var evt = portfolio.EventHandler.events.SECTION_SHOWN;
 // var data = {section: 'about'};
