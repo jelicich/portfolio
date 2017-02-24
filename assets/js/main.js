@@ -646,6 +646,9 @@ portfolio.Common = {
 
         if(t.isMobile()) {
             t.onMobileSwipe();
+            //close navbar when clicking on a link
+            t.setNavbarLinks();
+
             t.addMultipleEventListener(window, 'touchmove touchcancel', function(event) {
                 if(!portfolio.Common.isModalOpen) { 
                     event.preventDefault();
@@ -660,8 +663,14 @@ portfolio.Common = {
                 }, 200);
             });
 
-            //close navbar when clicking on a link
-            t.setNavbarLinks();
+            //mobile hack for bootstrap modal bug
+            $modal = $('.modal').on('shown.bs.modal', function(e){
+                portfolio.Common.fixBg();
+            })
+            $modal = $('.modal').on('hidden.bs.modal', function(e){
+                portfolio.Common.releaseBg();
+            })
+            
         } else {
             t.onWheelMove();
         }
@@ -669,7 +678,6 @@ portfolio.Common = {
         $modal = $('.modal').on('shown.bs.modal', function(e){
             portfolio.Common.isModalOpen = true;
             portfolio.Common.modalOpen = this;
-            portfolio.Common.fixBg();
         })
 
         $modal = $('.modal').on('hidden.bs.modal', function(e){
