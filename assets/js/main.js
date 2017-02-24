@@ -1,7 +1,9 @@
-var portfolio = {}
+var portfolio = {};
 
 portfolio.Section = {
     shown: false,
+    sectionId: null,
+
     init: function() {},
     //TODO check if needed
     setShown: function(shown) {
@@ -10,7 +12,33 @@ portfolio.Section = {
 
     isShown: function() {
         return this.shown;
-    }
+    },
+
+    onShow: function(callback, offset) {
+        offset = offset || 300;
+        var t = this;
+        var waypoint = new Waypoint({
+            element: document.getElementById(t.sectionId),
+            handler: function() {
+                var classObj = t.getClass();
+                if(!classObj.isShown()) {
+                    callback.apply(classObj);
+                    classObj.setShown(true);
+                }
+            },
+            offset: offset
+        });
+    },
+
+    getClass: function() {
+        for(var classObj in portfolio) { 
+            if(portfolio[classObj].sectionId == this.sectionId) {
+                return portfolio[classObj];
+            }
+        }
+    },
+
+    effects: function() {}
 }
 
 portfolio.Home = $.extend(true, {}, portfolio.Section, {
@@ -22,23 +50,21 @@ portfolio.Home = $.extend(true, {}, portfolio.Section, {
 });
 
 portfolio.About = $.extend(true, {}, portfolio.Section, {
-    init: function() {
-        var waypoint = new Waypoint({
-            element: document.getElementById('about'),
-            handler: function() {
-                if(!portfolio.About.isShown()) {
-                    portfolio.About.setShown(true);
-                    $('#about .img-about').css({opacity: '1', animation: 'bounce-from-right 0.5s ease-out'});
-                    $('#about .text-wrapper').css({opacity: '1'});
-                    //$('#about .text-wrapper').css({opacity: '1', animation: 'bounce-from-left 0.5s ease-out'});
-                }   
-            },
-            offset: 300
-        })        
+    sectionId: 'about',
+
+    init: function() {      
+        this.onShow(this.effects, 300);       
     },
+
+    effects: function() {
+        $('#about .img-about').css({opacity: '1', animation: 'bounce-from-right 0.5s ease-out'});
+        $('#about .text-wrapper').css({opacity: '1'});
+    }
+
 });
 
 portfolio.Skills = $.extend(true, {}, portfolio.Section, {
+    sectionId: 'skills',
     currentData: 0,
 
     //Data to be displayed. Edit as desired
@@ -123,23 +149,18 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
             t.config.textDown = 14;
         }
         //Note: this code will expect the same length on every dataset.
-        //starts with empty data to animate from 0
+        //starts with empty data to animate from 0 with effects function
         this.startChart(initData);
 
-        //listener to update the chart with the proper data
-        var waypoint = new Waypoint({
-            element: document.getElementById('chart'),
-            handler: function() {
-                if(!portfolio.Skills.isShown()) {
-                    portfolio.Skills.setShown(true);
-                    t.renderChart(t.data[t.currentData].data)
+        t.onShow(t.effects, 300);
+    },
 
-                    var $section = $('#skills');
-                    $section.css('opacity', 1);
-                }   
-            },
-            offset: 300
-        })
+    effects: function() {
+        // update the chart with the proper data
+        this.renderChart(this.data[this.currentData].data)
+
+        var $section = $('#skills');
+        $section.css('opacity', 1);
     },
 
     renderChart: function(dataset) {
@@ -355,24 +376,13 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 });
 
 portfolio.Contact = $.extend(true, {}, portfolio.Section, {
+    sectionId: 'contact',
+    timeOutModal: null,
+    counterInterval: null,
+
     init: function() {
         var t = this;
-        
-        var waypoint = new Waypoint({
-            element: document.getElementById('contact'),
-            handler: function() {
-                if(!portfolio.Contact.isShown()) {
-                    portfolio.Contact.setShown(true);
-                    
-                    var $title = $('#contact h1');
-                    $title.css('opacity', 1);
-
-                    var $form = $('#contact form');
-                    $form.css({opacity: '1', animation: 'bounce-from-bottom 0.5s ease-out'});
-                }   
-            },
-            offset: 100
-        });
+        t.onShow(t.effects, 100);
 
         $('#modal-contact').on('hidden.bs.modal', function() {
             clearTimeout(portfolio.Contact.timeOutModal);
@@ -442,6 +452,14 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
         }
     },
 
+    effects: function() {
+        var $title = $('#contact h1');
+        $title.css('opacity', 1);
+
+        var $form = $('#contact form');
+        $form.css({opacity: '1', animation: 'bounce-from-bottom 0.5s ease-out'});
+    },
+
     sendMessage: function() {
         var t = this;
         var data = {
@@ -504,40 +522,34 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
 
 
 portfolio.Works = $.extend(true, {}, portfolio.Section, {
+    sectionId: 'works',
+
     init: function() {
         var t = this;
-        
+        t.onShow(t.effects, 100)
         t.showcase();
 
         $('.card').click(function(){
             var content = $(this).data('content');
             t.loadContent(content);
-        });
+        });  
 
-        var waypoint = new Waypoint({
-            element: document.getElementById('works'),
-            handler: function() {
-                if(!portfolio.Works.isShown()) {
-                    portfolio.Works.setShown(true);
-                    
-                    var $title = $('#works h1');
-                    $title.css('opacity', 1);
+    },
 
-                    var $slideBtn = $('#works .flickity-prev-next-button');
-                    $slideBtn.css('opacity', 0.8);
+    effects: function() {
+       var $title = $('#works h1');
+        $title.css('opacity', 1);
 
-                    var $slides = $('#works .course-item.slide');
-                    $slides.each(function(i,el){
-                        setTimeout(function(){
-                            $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
-                        },i*100)
-                        
-                    }); 
-                }   
-            },
-            offset: 100
-        })    
+        var $slideBtn = $('#works .flickity-prev-next-button');
+        $slideBtn.css('opacity', 0.8);
 
+        var $slides = $('#works .course-item.slide');
+        $slides.each(function(i,el){
+            setTimeout(function(){
+                $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
+            },i*100)
+            
+        });  
     },
 
     showcase: function() {
@@ -592,35 +604,29 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
 
 //extends from works
 portfolio.Lab = $.extend(true, {}, portfolio.Works, {
+    sectionId: 'lab',
+
     init: function() {
         var t = this;
-        
-        //t.showcase();
+        t.onShow(t.effects, 100);
+        //t.showcase(); 
 
-        var waypoint = new Waypoint({
-            element: document.getElementById('lab'),
-            handler: function() {
-                if(!portfolio.Lab.isShown()) {
-                    portfolio.Lab.setShown(true);
-                    
-                    var $title = $('#lab h1');
-                    $title.css('opacity', 1);
+    },
 
-                    var $slideBtn = $('#lab .flickity-prev-next-button');
-                    $slideBtn.css('opacity', 1);
+    effects: function() {
+        var $title = $('#lab h1');
+        $title.css('opacity', 1);
 
-                    var $slides = $('#lab .course-item.slide');
-                    $slides.each(function(i,el){
-                        setTimeout(function(){
-                            $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
-                        },i*100)
-                        
-                    }); 
-                }   
-            },
-            offset: 100
-        })    
+        var $slideBtn = $('#lab .flickity-prev-next-button');
+        $slideBtn.css('opacity', 1);
 
+        var $slides = $('#lab .course-item.slide');
+        $slides.each(function(i,el){
+            setTimeout(function(){
+                $(el).css({opacity: '1', animation: 'bounce-from-top 0.5s ease-out'});       
+            },i*100)
+            
+        }); 
     },
 
     showcase: function() {
@@ -637,12 +643,15 @@ portfolio.Common = {
     swipeCount: 0,
     isModalOpen: false,
     modalOpen: null,
+    dotsInterval: null,
 
     init : function() 
     {   
         var t = this;
+        var $modal = $('.modal');
         t.scrollTo();
         t.preload();
+
 
         if(t.isMobile()) {
             t.onMobileSwipe();
@@ -664,23 +673,23 @@ portfolio.Common = {
             });
 
             //mobile hack for bootstrap modal bug
-            $modal = $('.modal').on('shown.bs.modal', function(e){
+            $modal.on('shown.bs.modal', function(e){
                 portfolio.Common.fixBg();
             })
-            $modal = $('.modal').on('hidden.bs.modal', function(e){
+            $modal.on('hidden.bs.modal', function(e){
                 portfolio.Common.releaseBg();
             })
-            
+
         } else {
             t.onWheelMove();
         }
 
-        $modal = $('.modal').on('shown.bs.modal', function(e){
+        $modal.on('shown.bs.modal', function(e){
             portfolio.Common.isModalOpen = true;
             portfolio.Common.modalOpen = this;
         })
 
-        $modal = $('.modal').on('hidden.bs.modal', function(e){
+        $modal.on('hidden.bs.modal', function(e){
             portfolio.Common.isModalOpen = false;
             portfolio.Common.modalOpen = null;
             portfolio.Common.releaseBg();
@@ -819,7 +828,7 @@ portfolio.Common = {
     },
 
     preload: function() {
-        $dotsContainer = $('#loading-screen span');
+        var $dotsContainer = $('#loading-screen span');
         portfolio.Common.dotsInterval = setInterval(function(){
             if($dotsContainer.html() == '...') {
                 $dotsContainer.html('')
@@ -905,15 +914,15 @@ portfolio.EventHandler = {
         portfolio.Lab.init();
         portfolio.Contact.init();
 
-        ( function( $ ) {
-            // Init Skrollr
-            // var s = skrollr.init({
-            //     render: function(data) {
-            //         //Debugging - Log the current scroll position.
-            //         //console.log(data.curTop);
-            //     },
-            // });
-        } )( jQuery );
+        // ( function( $ ) {
+        //     Init Skrollr
+        //     var s = skrollr.init({
+        //         render: function(data) {
+        //             //Debugging - Log the current scroll position.
+        //             //console.log(data.curTop);
+        //         },
+        //     });
+        // } )( jQuery );
     });
 }
 
