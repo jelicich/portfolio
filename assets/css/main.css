@@ -71,7 +71,8 @@ h1 {
   background: #fff;
   display: flex; }
   #loading-screen p {
-    margin: auto; }
+    margin: auto;
+    width: 100px; }
 
 header .navbar {
   background: #fff;
