@@ -206,8 +206,8 @@ header .icon-bar {
   @media (max-width: 560px) {
     #works .flickity-prev-next-button,
     #lab .flickity-prev-next-button {
-      width: 20px !important;
-      height: 20px !important; } }
+      width: 30px;
+      height: 30px; } }
 #works .flickity-prev-next-button:hover,
 #lab .flickity-prev-next-button:hover {
   background-color: #FF5252;
