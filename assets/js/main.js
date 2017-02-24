@@ -372,7 +372,13 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
                 }   
             },
             offset: 100
-        })
+        });
+
+        $('#modal-contact').on('hidden.bs.modal', function() {
+            clearTimeout(portfolio.Contact.timeOutModal);
+            clearInterval(portfolio.Contact.counterInterval);
+            $('.auto-close-notice').hide();
+        });
 
         $('textarea').blur(function () {
             $('textarea').each(function () {
@@ -461,15 +467,17 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
                     $('#email').blur();
                     $('#msg').val('');
                     $('#msg').blur();
+                    t.delayedModalClose($modal, 8000);
                 }
                 $modal.modal('show');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $result.html(errorThrown);
                 $modal.modal('show');
+                t.delayedModalClose($modal, 10000);
             },
             complete: function() {
-                t.delayedModalClose($modal, 8000);
+                //t.delayedModalClose($modal, 10000);
             },
             beforeSend: function() {
                 $result.html('<p>Sending message...</p><p class="align-center"><img src="assets/img/loading.gif" alt="Loading"/></p>');
@@ -479,8 +487,17 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
     },
 
     delayedModalClose: function($modal, time){
-        setTimeout(function() {
-            $modal.modal('hide');
+        $('.auto-close-notice').show();
+        var counter = time/1000;
+        $('#auto-close-counter').html(counter);
+
+        portfolio.Contact.counterInterval = setInterval(function() {
+            counter--;
+            $('#auto-close-counter').html(counter)
+        }, 1000);
+
+        portfolio.Contact.timeOutModal = setTimeout(function() {
+            $modal.modal('hide');    
         }, time);
     }
 });
@@ -535,8 +552,11 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
         var file = content+'.json';
         var $curtain = $('<div>').addClass('modal-loading');
         $('.modal-content', '#modal-works').append($curtain);
+
+        var prevSrc = $('.work-img').attr('src');
         
         $.getJSON( './assets/json/' + file, function(data) {
+            console.log('json loaded');
             var items = [];
             //console.log(data.name);
             $('#modal-works-title').html(data.name);
@@ -555,11 +575,16 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
             }
 
             //remove the loader
-            $('.work-img').on('load', function() {
-               $curtain.fadeOut('fast', function() {
-                    $curtain.remove();
-                }); 
-            })
+            if(prevSrc == $('.work-img').attr('src')) {
+                $curtain.remove();
+            } else { 
+                $('.work-img').on('load', function() {
+                   $curtain.fadeOut('fast', function() {
+                        $curtain.remove();
+                    }); 
+                })
+            }
+                
                 
         });
     }
@@ -808,14 +833,21 @@ portfolio.Common = {
 
     //hack for ios to prevent scrolling body when modal is open,
     fixBg: function() {
-        $('body').css('overflow','hidden');
-        $('body').css('position','fixed');
+        portfolio.Common.scrollPos = $('body').scrollTop();
+        $('body').css({
+            overflow: 'hidden',
+            position: 'fixed',
+            top : -portfolio.Common.scrollPos
+        });
     },
 
     //hack for ios to prevent scrolling body when modal is open,
     releaseBg: function() {
-        $('body').css('overflow','');
-        $('body').css('position','');
+        $('body').css({
+            overflow: '',
+            position: '',
+            top: ''
+        }).scrollTop(portfolio.Common.scrollPos);
     }
 
 }

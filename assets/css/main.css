@@ -514,6 +514,10 @@ header .icon-bar {
 
 #modal-contact .modal-content {
   border-radius: 0 !important; }
+  #modal-contact .modal-content .auto-close-notice {
+    opacity: 0.5;
+    font-size: 12px;
+    display: none; }
 
 footer {
   color: gray;

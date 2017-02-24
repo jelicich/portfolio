@@ -194,5 +194,11 @@ $field-color:#E8E9EA;
 
 	.modal-content{
 		border-radius: 0 !important;
+
+		.auto-close-notice {
+			opacity: 0.5;
+			font-size: 12px;
+			display: none;
+		}
 	}
 }
