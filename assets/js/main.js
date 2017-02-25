@@ -215,12 +215,15 @@ portfolio.Skills = $.extend(true, {}, portfolio.Section, {
 
         t.onShow([t.effects, t.sendStatistics], 300);
         
-        var $btnSkills = $('text.skills-button-text');
-        $btnSkills.click(function() {
-            var monitoringService = portfolio.service.MonitoringService;
-            monitoringService.notify({
-                category : monitoringService.eventCategory.skills, 
-                action : monitoringService.action.switchedSkills
+        var $btnSkillsText = $('text.skills-button-text');
+        var $btnSkillsCircle = $('circle.click-circle');
+        $([$btnSkillsCircle, $btnSkillsText]).each(function(){
+            $(this).click(function() {
+                var monitoringService = portfolio.service.MonitoringService;
+                monitoringService.notify({
+                    category : monitoringService.eventCategory.skills, 
+                    action : monitoringService.action.switchedSkills
+                });
             });
         });
 
@@ -520,13 +523,8 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
         $submit.click(function(e) {
             e.preventDefault();
             t.sendMessage();
-
-            var monitoringService = portfolio.service.MonitoringService;
-            monitoringService.notify({
-                category : monitoringService.eventCategory.contact, 
-                action : monitoringService.action.sentMessage
-            });
         });
+            
     },
 
     effects: function() {
@@ -563,6 +561,12 @@ portfolio.Contact = $.extend(true, {}, portfolio.Section, {
                     $('#msg').val('');
                     $('#msg').blur();
                     t.delayedModalClose($modal, 8000);
+
+                    var monitoringService = portfolio.service.MonitoringService;
+                    monitoringService.notify({
+                        category : monitoringService.eventCategory.contact, 
+                        action : monitoringService.action.sentMessage
+                    });
                 }
                 $modal.modal('show');
             },
@@ -623,19 +627,6 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
             });
         });
 
-        var $workLink = $('.work-link');
-        $workLink.click(function() {
-            debugger;
-            var monitoringService = portfolio.service.MonitoringService;
-            var section = $('#modal-works').data('displaying');
-            monitoringService.notify({
-                category : monitoringService.eventCategory[section], 
-                action : monitoringService.action.clickedOnWorkLink,
-                label : $('#modal-works-title').html()
-            });
-
-        });
-
     },
 
     effects: function() {
@@ -672,7 +663,7 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
         var prevSrc = $('.work-img').attr('src');
         
         $.getJSON( './assets/json/' + file, function(data) {
-            console.log('json loaded');
+            
             var items = [];
             //console.log(data.name);
             $('#modal-works-title').html(data.name);
@@ -700,7 +691,18 @@ portfolio.Works = $.extend(true, {}, portfolio.Section, {
                     }); 
                 })
             }
-                
+               
+            //assign the proper google event to the link 
+            var $workLink = $('.work-link');
+            $workLink.click(function() {
+                var monitoringService = portfolio.service.MonitoringService;
+                var section = $('#modal-works').data('displaying');
+                monitoringService.notify({
+                    category : monitoringService.eventCategory[section], 
+                    action : monitoringService.action.clickedOnModalLink,
+                    label : $('#modal-works-title').html()
+                });
+            });
                 
         });
     }
@@ -717,7 +719,7 @@ portfolio.Lab = $.extend(true, {}, portfolio.Works, {
 
     init: function() {
         var t = this;
-        t.onShow([t.effects], 100);
+        t.onShow([t.effects, t.sendStatistics], 100);
         //t.showcase(); 
 
         var $labCard = $('#lab .card');
@@ -730,17 +732,6 @@ portfolio.Lab = $.extend(true, {}, portfolio.Works, {
                 category : monitoringService.eventCategory.lab, 
                 action : monitoringService.action.launchedLab,
                 label : $(this).find('.course-title').html()
-            });
-        });
-
-        var $labLink = $('.work-link');
-        $labLink.click(function() {
-            var monitoringService = portfolio.service.MonitoringService;
-            var section = $('#modal-works').data('displaying');
-            monitoringService.notify({
-                category : monitoringService.eventCategory[section], 
-                action : monitoringService.action.clickedOnLabLink,
-                label : $(this).find('#modal-works-title').html()
             });
         });
     },
@@ -840,6 +831,20 @@ portfolio.Common = {
         googleHandler.init();
 
         portfolio.service.MonitoringService.setServiceHandler(googleHandler);
+
+        //set google analytics event for footer links:
+        var $footerLinks = $('footer a');
+        $footerLinks.each(function(){
+            $(this).click(function(){
+                var monitoringService = portfolio.service.MonitoringService;
+                monitoringService.notify({
+                    category : monitoringService.eventCategory.footer, 
+                    action : monitoringService.action.clickedOnFooterLink,
+                    label : $(this).attr('href')
+                });
+            });
+                
+        })
     },
 
     addMultipleEventListener: function(element, eventNames, listener) {
@@ -1039,19 +1044,20 @@ portfolio.service.MonitoringService = {
     about   : 'about',
     works   : 'works',
     lab     : 'lab',
+    skills  : 'skills',
     contact : 'contact',
-    footer  : 'Footer'
+    footer  : 'footer'
   },
 
   action : {
     sectionLoaded       : 'Section Loaded',
     downloadedCv        : 'Downloaded CV',
     launchedWork        : 'Launched Work',
-    clickedOnWorkLink   : 'Clicked on Work link',
     launchedLab         : 'Launched Lab',
-    clickedOnLabLink    : 'Clicked on Lab link',
+    clickedOnModalLink  : 'Clicked on modal link',
     switchedSkills      : 'Switched skills',
-    sentMessage         : 'Sent Message'
+    sentMessage         : 'Sent Message',
+    clickedOnFooterLink : 'Clicked on footer link'
   },
 
   setServiceHandler : function(serviceHandler) {
